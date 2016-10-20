@@ -133,6 +133,7 @@
         <xsl:param name="enable_edit">false</xsl:param>
         <xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',$id,'/',$per_page,'/',$sort_polls))" />
         <xsl:variable name="feed" select="document(concat('udata://vote/get/',$id,'/0'))" />
+
         <div class="feed">
             <div class="shell">
                 <div class="head shadow">
@@ -510,13 +511,13 @@
                             <xsl:with-param name="alt" select="$feed//name" />
                         </xsl:apply-templates>
                     </xsl:if>
+                </div>
 
-                    <div class="list_polls_preview">
-                        <div></div>
-                        <ul class="dot">
-                            <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="listPollsOfFeedsPreview" />
-                        </ul>
-                    </div>
+                <div class="list_polls_preview">
+                    <div></div>
+                    <ul class="dot">
+                        <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="listPollsOfFeedsPreview" />
+                    </ul>
                 </div>
 
                 <xsl:if test="$feed//photo_profile != ''">

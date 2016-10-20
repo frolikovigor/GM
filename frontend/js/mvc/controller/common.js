@@ -51,7 +51,7 @@ export default class controller{
         return new Promise(function(resolve, reject){
             $(".hidden_block").removeClass("hidden_block");
             GM.View.AdaptiveImage();
-            $(".dot").dotdotdot();
+            // $(".dot").dotdotdot();
             GM.View.CutContent();
             GM.View.Masonry.init();
             GM.View.Goto();

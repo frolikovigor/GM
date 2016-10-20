@@ -118,7 +118,7 @@ export default class view{
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-    };
+    }
 
     //Создает элементы option
     InitCounter(){
@@ -140,7 +140,7 @@ export default class view{
             }
             $(this).closest('select').find("[data-remove='1']").remove();
         });
-    };
+    }
 
     //Инициализация капчи
     InitCaptcha(){
@@ -235,6 +235,6 @@ export default class view{
                 })
             }
         });
-    };
+    }
     
 };

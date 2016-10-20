@@ -12,8 +12,8 @@ import getPoll from './components/poll';
 import getFeed from './components/feed';
 import getImages from './components/image';
 
-export default class model{
-    constructor(){
+export default class model {
+    constructor() {
         this.Gridster = getGridster();
         this.NewPoll = newPoll();
         this.NewArticle = newArticle();

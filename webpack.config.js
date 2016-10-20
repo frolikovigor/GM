@@ -1,6 +1,8 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
-
+const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+console.log(NODE_ENV);
 
 module.exports = {
     context: __dirname + "/frontend",
@@ -10,23 +12,16 @@ module.exports = {
         filename: './templates/iview/public/js/scripts.js'
     },
 
-    /*plugins: NODE_ENV === 'production' ? [
-     new webpack.optimize.UglifyJsPlugin({
-     compress: {
-     warnings: false,
-     drop_console: true,
-     unsafe: true
-     }
-     })
-     ] : [
-     new CopyWebpackPlugin([{
-     from: './dev/index.html', to: './dist/index.html'
-     },{
-     from: './dev/css/style.css', to: './dist/css/style.css'
-     }])
-     ],*/
-
-    plugins: [
+    plugins: NODE_ENV === 'production' ? [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new ExtractTextPlugin('./templates/iview/public/css/style.css', {
+            allChunks: true
+        })
+    ] : [
         new ExtractTextPlugin('./templates/iview/public/css/style.css', {
             allChunks: true
         })

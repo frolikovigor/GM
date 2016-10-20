@@ -61,7 +61,7 @@ export default function newPoll(){
                                 }
 
                                 GM.View.IntroJs.init();
-                            },500);
+                            },50);
 
                             GM.View.CutContent();
                             GM.View.ColorBox.init();
