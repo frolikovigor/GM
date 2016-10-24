@@ -16,7 +16,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 	<xsl:template name="header">
-        <header itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+        <header class="main-header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
             <div class="content">
                 <div class="logo"><a href="/">Glas<span>Media</span></a></div>
 

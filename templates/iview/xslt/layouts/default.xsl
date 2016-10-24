@@ -129,7 +129,7 @@
                 <!--<link rel="stylesheet" href="{$template-resources}css/cropper.min.css" />-->
                 <!--<link rel="stylesheet" href="{$template-resources}css/style.css" type="text/css" media="all" />-->
                 <!--<link type="text/css" rel="stylesheet" href="/min/b=templates/iview/css&amp;f=bootstrap.min.css,bootstrap-theme.min.css,colorbox.css,cropper.min.css,social-likes_classic.css,introJs/introjs.css,style.css?{/result/@system-build}" />-->
-                <link type="text/css" rel="stylesheet" href="{$template-resources}public/css/style.css?{/result/@system-build}" />d
+                <link type="text/css" rel="stylesheet" href="{$template-resources}public/css/style.css?{/result/@system-build}" />
 
                 <!-- Если выключен javascript -->
                 <xsl:if test="not($document-page-id) or ($document-page-id and ($document-page-id != 3311))">
@@ -669,7 +669,7 @@
                 <!--<script type="text/javascript" src="{$template-resources}js/scripts.js" />-->
 
                 <xsl:if test="($document-page-id = '3245') or (/result/udata[@module='vote'][@method='get']/user = $user-id)">
-                    <script type="text/javascript" src="/frontend/js/ckeditor/ckeditor.js" />
+                    <script type="text/javascript" src="/templates/iview/public/js/ckeditor/ckeditor.js" />
                 </xsl:if>
 
                 <!--<script async="async" type="text/javascript" src="/min/b=templates/iview/js&amp;f=jquery.min.js,google_jsapi.js,jquery.cookie.js,bootstrap.min.js,masonry.pkgd.min.js,cropper.min.js,cc_validate.js,jquery.colorbox-min.js,social-likes.min.js,jquery.form.js,jquery.gridster.min.js,introJs/intro.js,mousewhell.js,wait_for_images.js,ddd.js,touch_smartphoenes.js,scripts.js?{/result/@system-build}"></script>-->

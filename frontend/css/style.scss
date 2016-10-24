@@ -125,7 +125,7 @@ h1,
   width: 90%;
 }
 
-header {
+.main-header {
   background-color: $color1;
   font-size: 0;
   left: 0;
@@ -1085,12 +1085,14 @@ img.img_20 {
     list-style-type: none;
     margin-bottom: 0;
 
-    li .icon {
-      color: $color1;
-      font-size: 16px;
-      margin-right: 10px;
-      margin-top: -4px;
-      vertical-align: middle;
+    li {
+      .icon {
+        color: $color1;
+        font-size: 16px;
+        margin-right: 10px;
+        margin-top: -4px;
+        vertical-align: middle;
+      }
 
       a {
         color: #444;
@@ -1792,7 +1794,7 @@ img.img_20 {
     margin: 10px 0;
   }
 
-  .head {
+  header {
     background-color: $color5;
     position: relative;
     z-index: 2;
@@ -1850,38 +1852,42 @@ img.img_20 {
 
     .list_polls_preview {
       height: 100%;
+      padding: 15px 15px 15px 0px;
       position: absolute;
       right: 0;
       top: 0;
-      width: 336px;
+      width: 260px;
       z-index: 1;
 
-      & > div {
-        -khtml-opacity: .7;
-        -moz-box-shadow: -5px 0 8px 0 rgba(0,0,0,.7);
-        -moz-opacity: .7;
-        -webkit-box-shadow: -5px 0 8px 0 rgba(0,0,0,.7);
+      .substrate {
+        -khtml-opacity: .6;
+        -moz-box-shadow: -4px 5px 15px 0px rgba(0,0,0, .5);
+        -moz-opacity: .6;
+        -webkit-box-shadow: -4px 5px 15px 0px rgba(0,0,0,.5);
         background-color: #000;
-        box-shadow: -5px 0 8px 0 rgba(0,0,0,.7);
-        filter: alpha(opacity = 70);
+        box-shadow: -4px 5px 15px 0px 0 rgba(0,0,0,.5);
+        filter: alpha(opacity = 60);
         height: 100%;
-        opacity: .7;
+        opacity: .6;
         position: absolute;
         right: 0;
         top: 0;
         width: 100%;
       }
 
-      & > ul {
-        color: $color5;
-        font-size: 14px;
+      .list {
+        width: 100%;
         height: 100%;
         overflow: hidden;
-        padding: 15px 15px 15px 25px;
+        position: relative;
+      }
+
+      .list ul {
+        color: #fff;
+        font-size: 14px;
         position: absolute;
-        right: 0;
+        left: 30px;
         top: 0;
-        width: 100%;
 
         li a {
           color: $color5;
@@ -2409,6 +2415,7 @@ img.img_20 {
     font-size: 12px;
     font-weight: bold;
     margin: 10px -20px -20px;
+    overflow: hidden;
     padding: 6px 20px 4px;
     position: relative;
     text-transform: uppercase;
@@ -3914,7 +3921,7 @@ img.img_20 {
   }
 
   .new_poll_block .sidebar {
-    border-left: none;
+    border-left: 0;
     width: 100%;
   }
 

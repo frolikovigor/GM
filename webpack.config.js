@@ -9,7 +9,8 @@ module.exports = {
     entry: './js/main.js',
 
     output: {
-        filename: './templates/iview/public/js/scripts.js'
+        path: __dirname + "/templates/iview/public/",
+        filename: './js/scripts.js'
     },
 
     plugins: NODE_ENV === 'production' ? [
@@ -18,11 +19,11 @@ module.exports = {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin('./templates/iview/public/css/style.css', {
+        new ExtractTextPlugin('./css/style.css', {
             allChunks: true
         })
     ] : [
-        new ExtractTextPlugin('./templates/iview/public/css/style.css', {
+        new ExtractTextPlugin('./css/style.css', {
             allChunks: true
         })
     ],

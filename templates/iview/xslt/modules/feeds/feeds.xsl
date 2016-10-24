@@ -497,8 +497,8 @@
         <xsl:param name="h1">1</xsl:param>
         <xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',$id,'/',$per_page,'/',$sort_polls))" />
         <xsl:variable name="feed" select="document(concat('udata://vote/get/',$id,'/0'))" />
-        <div class="feed shadow">
-            <div class="head">
+        <article class="feed shadow">
+            <header>
                 <div class="image">
                     <xsl:if test="$feed//photo_profile != ''">
                         <xsl:attribute name="class">image f_h</xsl:attribute>
@@ -514,10 +514,12 @@
                 </div>
 
                 <div class="list_polls_preview">
-                    <div></div>
-                    <ul class="dot">
-                        <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="listPollsOfFeedsPreview" />
-                    </ul>
+                    <div class="substrate"></div>
+                    <div class="list">
+                        <ul class="dot">
+                            <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="listPollsOfFeedsPreview" />
+                        </ul>
+                    </div>
                 </div>
 
                 <xsl:if test="$feed//photo_profile != ''">
@@ -529,7 +531,8 @@
                         </xsl:apply-templates>
                     </div>
                 </xsl:if>
-            </div>
+            </header>
+
             <div class="feed-info">
                 <xsl:choose>
                     <xsl:when test="$h1 = '1'">
@@ -642,7 +645,7 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </div>-->
-        </div>
+        </article>
     </xsl:template>
 
     <xsl:template match="item" mode="listPollsOfFeedsPreview">
