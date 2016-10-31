@@ -29,7 +29,7 @@
         <xsl:choose>
             <xsl:when test="$type='standart'">
                 <xsl:variable name="width">588</xsl:variable>
-                <div class="poll {$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
+                <div class="article article--poll article--{$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
                     <form>
                         <input type="hidden" name="data[params][type]" value="{$type}" />
                         <input type="hidden" name="data[params][view_url]" value="{$view_url}" />
@@ -86,7 +86,7 @@
                             </div>
                         </xsl:if>
 
-                        <div class="poll_navbar"><span>Раздел: </span>
+                        <div class="source-info"><span>Раздел: </span>
                             <xsl:apply-templates select="$getPoll//categories//item" mode="poll_categories" />
                             <span class="date"><xsl:value-of select="$getPoll//date/@formatted-date" /></span>
                         </div>
@@ -110,7 +110,7 @@
                                 </table>
                             </div>
                         </xsl:if>
-                        <div class="variants" itemtype="http://schema.org/ItemList">
+                        <div class="article--poll__variants" itemtype="http://schema.org/ItemList">
                             <xsl:apply-templates select="$getPoll//variants//item" mode="poll_variants">
                                 <xsl:with-param name="pollId" select="$id" />
                                 <xsl:with-param name="preview" select="$getPoll//preview" />
@@ -161,7 +161,7 @@
                     </xsl:choose>
                 </xsl:variable>
 
-                <div class="poll {$type} poll{$id} shadow" data-id="{$id}" data-multiple="{$getPoll//multiple}" data-type="poll">
+                <article class="article article--poll article--{$type} poll{$id} shadow" data-id="{$id}" data-multiple="{$getPoll//multiple}" data-type="poll">
 
                     <xsl:variable name="link">
                         <xsl:choose>
@@ -249,7 +249,7 @@
                             </div>
                         </xsl:if>
 
-                        <div class="poll_navbar"><span>Раздел: </span>
+                        <div class="source-info"><span>Раздел: </span>
                             <xsl:apply-templates select="$getPoll//categories//item" mode="poll_categories" />
                             <span class="date"><xsl:value-of select="$getPoll//date/@formatted-date" /></span>
                         </div>
@@ -277,7 +277,7 @@
                                 <xsl:with-param name="url" select="$link" />
                             </xsl:apply-templates>
                         </xsl:if>
-                        <div class="variants" itemtype="http://schema.org/ItemList">
+                        <div class="article--poll__variants" itemtype="http://schema.org/ItemList">
                             <xsl:apply-templates select="$getPoll//variants//item" mode="poll_variants">
                                 <xsl:with-param name="pollId" select="$id" />
                                 <xsl:with-param name="preview" select="$getPoll//preview" />
@@ -308,11 +308,11 @@
                             </xsl:when>
                         </xsl:choose>
 
-                        <!--<xsl:if test="$getPoll/udata/user/@id = '2'">-->
-                        <!--<xsl:call-template name="likes_and_share">-->
-                            <!--<xsl:with-param name="obj_id" select="$getPoll//obj_id" />-->
-                        <!--</xsl:call-template>-->
-                        <!--</xsl:if>-->
+                        <xsl:if test="$getPoll/udata/user/@id = '2'">
+                            <!--<xsl:call-template name="likes_and_share">-->
+                                <!--<xsl:with-param name="obj_id" select="$getPoll//obj_id" />-->
+                            <!--</xsl:call-template>-->
+                        </xsl:if>
 
                         <xsl:call-template name="comments">
                             <xsl:with-param name="objId" select="$getPoll//obj_id" />
@@ -324,12 +324,13 @@
                             <a class="detail" href="{$link}" title="Подробнее: {$getPoll//h1}"><span class="detail"> Подробнее <span class="glyphicon glyphicon-share-alt"></span><span class="right">Результаты на карте</span></span></a>
                         </xsl:if>
                     </form>
-                </div>
+                </article>
             </xsl:when>
 
             <xsl:when test="$type = 'short'">
                 <xsl:variable name="width">263</xsl:variable>
-                <div class="poll {$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
+
+                <div class="article article--poll article--{$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
                     <form>
                         <input type="hidden" name="data[params][type]" value="{$type}" />
                         <input type="hidden" name="data[params][view_url]" value="{$view_url}" />
@@ -364,7 +365,7 @@
                                 </table>
                             </div>
                         </xsl:if>
-                        <div class="variants" itemtype="http://schema.org/ItemList">
+                        <div class="article--poll__variants" itemtype="http://schema.org/ItemList">
                             <xsl:apply-templates select="$getPoll//variants//item" mode="poll_variants">
                                 <xsl:with-param name="pollId" select="$id" />
                                 <xsl:with-param name="preview" select="$getPoll//preview" />
@@ -557,9 +558,9 @@
         <xsl:param name="id" />
         <xsl:variable name="getPoll" select="document(concat('udata://vote/getPoll/',$id))" />
 
-        <div id="view_poll" class="shift_right">
+        <div class="view_poll shift_right">
             <div class="shell">
-                <div class="content shadow">
+                <div class="view_poll__content shadow">
                     <xsl:if test="count($getPoll//feeds/item)">
                         <div class="breadcrumbs">
                             <a href="{$getPoll//feeds/item/@link}"><span class="glyphicon glyphicon-chevron-left"></span> Лента «<xsl:value-of select="$getPoll//feeds/item" />»</a>
@@ -594,9 +595,7 @@
 
 
                                 <h2>
-                                    <!--<a href="{$getPoll//for_article//link}">-->
                                     <xsl:value-of select="$getPoll//for_article//title" />
-                                    <!--</a>-->
                                 </h2>
                                 <xsl:text> </xsl:text><span class="label-{$getPoll//for_article/type/@class}"><xsl:value-of select="$getPoll//for_article/type/@name" /></span>
                             </div>
@@ -608,11 +607,8 @@
                             </div>
                             <div class="cl"></div>
                             <div class="for_article_content">
-                                <!--<div class="content_cut" data-cut-id="1" data-cut-height="100" style="height:100px;">-->
                                 <div class="">
                                     <xsl:if test="$getPoll//for_article//img != ''">
-                                        <!--<xsl:attribute name="data-cut-height">285</xsl:attribute>-->
-                                        <!--<xsl:attribute name="style">height:285px;</xsl:attribute>-->
                                         <a href="{$getPoll//for_article//img}" class="popup_img" rel="article_img_{$getPoll//for_article/@id}">
                                             <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getPoll//for_article//img, ')/300/200/void/0/1/5/0/80/'))/udata" mode="image">
                                                 <xsl:with-param name="alt" select="$getPoll//for_article/title" />
@@ -700,11 +696,7 @@
                     </xsl:if>
 
                     <div class="cl"></div>
-                    <!--<xsl:if test="$getPoll//for_article">-->
-                        <!--<div class="title_block">-->
-                            <!--<div>Опрос создан на основе <xsl:value-of select="$getPoll//for_article/type/@rp" /></div>-->
-                        <!--</div>-->
-                    <!--</xsl:if>-->
+
                     <hr/>
 
                     <xsl:if test="count($getPoll//infoblocks_colors//item)">
@@ -739,47 +731,20 @@
                     <a href="#" class="open_cut hide" data-for-cut="comments_cut">Читать дальше</a>
 
 
-                    <!--<xsl:if test="count($getPoll//feeds//item)">
-                        <div class="title_block">
-                            <div>Ленты</div>
-                        </div>
-                    </xsl:if>
-
-                    <xsl:apply-templates select="document(concat('udata://vote/getListFitFeeds/',$settings//property[@name='poll_page_num_feeds']/value))//feeds//feed[@id != $getPoll//feeds//item/@id]" mode="poll_list_feeds" />-->
-
                     <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/',$parents//page[position() = last()]/@id,'/',$settings//property[@name='poll_page_num_poll_new']/value,'/popularity/1'))/udata/items//item" />
-                    <!--<xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',$getPoll//feeds/item/@id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/popularity/',$getPoll//obj_id))" />-->
-
-                    <!--<xsl:if test="(count($getListVotesOfCategory) &gt; 1) or (count($listPollsOfFeeds//item) &gt; 1)">-->
                     <xsl:if test="count($getListVotesOfCategory) &gt; 1">
                         <div class="title_block">
                             <div>Похожие опросы</div>
                         </div>
 
-                        <div class="masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="2">
-                            <!--<xsl:choose>-->
-                                <!--<xsl:when test="count($listPollsOfFeeds//item) &gt; 1">-->
-                                    <!--<xsl:apply-templates select="$listPollsOfFeeds//item" mode="getListVotesOnPollPage" />-->
-                                <!--</xsl:when>-->
-                                <!--<xsl:when test="count($getListVotesOfCategory) &gt; 1">-->
-                                    <xsl:apply-templates select="$getListVotesOfCategory" mode="getListVotesOnPollPage" />
-                                <!--</xsl:when>-->
-                            <!--</xsl:choose>-->
+                        <div class="masonry hidden_block hidden_block_content" data-class-masonry="article--short" data-masonry-gutter="2">
+
+                            <xsl:apply-templates select="$getListVotesOfCategory" mode="getListVotesOnPollPage" />
+
                         </div>
-                        <!--<xsl:if test="$listPollsOfFeeds//total &gt; $settings//property[@name='poll_page_feed_polls_per_page']/value">-->
-                            <!--<div class="paginated">-->
-                                <!--<a href="{$getPoll//feeds/item/@link}"><button class="btn btn-default btn-white btn-preloader"><img src="/templates/iview/images/preloader.gif" /><span>Еще</span></button></a>-->
-                            <!--</div>-->
-                        <!--</xsl:if>-->
+
                     </xsl:if>
 
-                    <!--<div class="title_block">-->
-                        <!--<div>Новые опросы</div>-->
-                    <!--</div>-->
-                    <!--<img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />-->
-                    <!--<div class="masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="2">-->
-                        <!--<xsl:apply-templates select="document(concat('udata://vote/getListVotesOfCategory/7/',$settings//property[@name='poll_page_num_poll_new']/value,'/auto/1'))/udata/items//item" mode="poll_listPollsOfFeeds" />-->
-                    <!--</div>-->
 
                     <div class="title_block">
                         <div>Популярные рубрики</div>
@@ -790,31 +755,26 @@
                     </div>
                 </div>
 
-                <div class="sidebar shadow" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+                <!--<div class="view_poll__sidebar shadow" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">-->
+                    <!--<div class="sidebar_item">-->
+                        <!--<img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />-->
+                        <!--<div class="hidden_block hidden_block_content">-->
+                            <!--<xsl:text disable-output-escaping="yes">&lt;</xsl:text>!&#45;&#45;noindex&#45;&#45;<xsl:text disable-output-escaping="yes">&gt;</xsl:text>-->
+                                <!--<xsl:apply-templates select="document(concat('udata://news/getFitNews/',$getPoll//obj_id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/',$settings//property[@name='poll_page_feed_per_page']/value))//part" mode="poll_fit_news" />-->
+                            <!--<xsl:text disable-output-escaping="yes">&lt;</xsl:text>!&#45;&#45;/noindex&#45;&#45;<xsl:text disable-output-escaping="yes">&gt;</xsl:text>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="view_poll__sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
                     <div class="sidebar_item">
-                        <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-                        <div class="hidden_block hidden_block_content">
-                            <xsl:text disable-output-escaping="yes">&lt;</xsl:text>!--noindex--<xsl:text disable-output-escaping="yes">&gt;</xsl:text>
-                                <xsl:apply-templates select="document(concat('udata://news/getFitNews/',$getPoll//obj_id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/',$settings//property[@name='poll_page_feed_per_page']/value))//part" mode="poll_fit_news" />
-                            <xsl:text disable-output-escaping="yes">&lt;</xsl:text>!--/noindex--<xsl:text disable-output-escaping="yes">&gt;</xsl:text>
-                        </div>
+                        <xsl:value-of select="$settings//property[@name='advert_4']/value" disable-output-escaping="yes" />
                     </div>
                 </div>
 
                 <div class="cl"></div>
-                <!--<div class="info_block left">-->
-                    <!--<xsl:call-template name="comments">-->
-                        <!--<xsl:with-param name="objId" select="$getPoll//obj_id" />-->
-                    <!--</xsl:call-template>-->
-                <!--</div>-->
-                <!--<div class="cl"></div>-->
             </div>
-
         </div>
-
-        <!--<xsl:call-template name="home_page">
-            <xsl:with-param name="enabled_popular_categories">false</xsl:with-param>
-        </xsl:call-template>-->
     </xsl:template>
 
     <xsl:template match="rating" mode="poll_impact_rating">
@@ -839,42 +799,6 @@
             <xsl:with-param name="h1">0</xsl:with-param>
         </xsl:call-template>
 
-
-
-
-        <!--<xsl:param name="obj_id" select="0" />
-        <xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',@id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/new/(',$obj_id,')'))" />
-        <div class="poll_feed_item">
-            <xsl:variable name="feed" select="document(concat('udata://vote/get/',@id,'/0'))" />
-            <table>
-                <tr>
-                    <xsl:if test="$feed//photo_profile_active = '1'">
-                        <td class="photo_profile">
-                            <a href="{$feed//link}">
-                                <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $feed//photo_profile, ')/160/160/void/0/1/5/0/80/'))/udata" mode="feedPhotoProfile">
-                                    <xsl:with-param name="width" select="160" />
-                                    <xsl:with-param name="height" select="160" />
-                                </xsl:apply-templates>
-                            </a>
-                        </td>
-                    </xsl:if>
-                    <td class="info">
-                        <a href="{$feed//link}"><xsl:value-of select="$feed//name" /></a>
-                        <hr/>
-                        <div class="description"><xsl:value-of select="$feed//description" disable-output-escaping="yes" /></div>
-                    </td>
-                </tr>
-            </table>
-            <xsl:if test="count($listPollsOfFeeds//items//item)">
-                <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-                <div class="poll_feeds_list masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="2">
-                    <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="poll_listPollsOfFeeds" />
-                </div>
-                <div class="paginated">
-                    <a href="{$feed//link}"><button class="btn btn-default btn-white btn-preloader"><img src="/templates/iview/images/preloader.gif" /><span>Еще</span></button></a>
-                </div>
-            </xsl:if>
-        </div>-->
     </xsl:template>
 
     <xsl:template match="part" mode="poll_fit_news">

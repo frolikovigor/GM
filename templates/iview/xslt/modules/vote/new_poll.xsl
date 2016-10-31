@@ -19,7 +19,7 @@
         <xsl:call-template name="panel" />
         <xsl:call-template name="panel_info" />
 
-        <div id="new_poll" class="shift_right new_poll_block" data-type="standart">
+        <div class="shift_right new_poll" data-type="standart">
             <div style="font-weight:normal; font-size:16px; padding:10px 0px 0px 20px;">Идет загрузка...</div>
         </div>
 

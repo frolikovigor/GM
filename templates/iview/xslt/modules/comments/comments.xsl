@@ -84,11 +84,11 @@
 
 
         <div class="comments">
-            <div class="title">
+            <div class="comments__title">
                 <div>Комментарии (<span><xsl:value-of select="$comments//total"/></span>)</div>
             </div>
 
-            <div class="comment" data-page="{$objId}" data-parent="" data-per_page="{$comments//per_page}">
+            <div class="comments__comment" data-page="{$objId}" data-parent="" data-per_page="{$comments//per_page}">
                 <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $comments//current_user/@user_photo_fragment, ')/50/50/void/0/1/5/0/80/'))/udata" mode="imageProfile">
                     <xsl:with-param name="width" select="50" />
                     <xsl:with-param name="height" select="50" />
@@ -99,7 +99,7 @@
                     <input type="text" name="name" class="form-control input-sm" placeholder="Ваше имя" maxlength="20" />
                 </xsl:if>
                 <textarea class="form-control" placeholder="Введите текст комментария..." maxlength="10000"></textarea>
-                <button type="button" class="btn btn-default btn-sm" onclick="GM.View.Comments.SendComment($(this));">
+                <button type="button" class="btn btn-default btn-sm" onclick="GM.Events.Comments.SendComment($(this));">
                     <xsl:if test="$comments//current_user/@captcha">
                         <xsl:attribute name="data-captcha">1</xsl:attribute>
                     </xsl:if>
@@ -113,7 +113,7 @@
                 <img class="preloader hide" src="/templates/iview/images/preloader.gif" />
             </div>
 
-            <div class="comment float" data-page="{$objId}" data-parent="">
+            <div class="comments__comment--float" data-page="{$objId}" data-parent="">
                 <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $comments//current_user/@user_photo_fragment, ')/50/50/void/0/1/5/0/80/'))/udata" mode="imageProfile">
                     <xsl:with-param name="width" select="50" />
                     <xsl:with-param name="height" select="50" />
@@ -123,7 +123,7 @@
                     <input type="text" name="name" class="form-control input-sm" placeholder="Ваше имя" maxlength="20" />
                 </xsl:if>
                 <textarea class="form-control" placeholder="Введите текст комментария..." maxlength="10000"></textarea>
-                <button type="button" class="btn btn-default btn-sm" onclick="GM.View.Comments.SendComment($(this));">
+                <button type="button" class="btn btn-default btn-sm" onclick="GM.Events.Comments.SendComment($(this));">
                     <xsl:if test="$comments//current_user/@captcha">
                         <xsl:attribute name="data-captcha">1</xsl:attribute>
                     </xsl:if>
@@ -146,7 +146,7 @@
     <xsl:template name="comments_block">
         <xsl:param name="comments" />
         <xsl:param name="cut-height">56</xsl:param>
-        <div class="comments_list">
+        <div class="comments__list">
             <xsl:apply-templates select="$comments/udata/items/item" mode="comment">
                 <xsl:with-param name="comments" select="$comments" />
                 <xsl:with-param name="objId" select="$comments//obj_id" />
@@ -164,14 +164,14 @@
         <xsl:param name="cut-height">56</xsl:param>
         <xsl:param name="first_level">true</xsl:param>
         <xsl:variable name="parent" select="@parent" />
-        <div class="comment_item">
+        <div class="comments__item">
             <xsl:if test="$first_level = 'true'">
                 <xsl:attribute name="itemprop">comment</xsl:attribute>
                 <xsl:attribute name="itemscope">itemscope</xsl:attribute>
                 <xsl:attribute name="itemtype">http://schema.org/UserComments</xsl:attribute>
             </xsl:if>
             <xsl:if test="@highlight = '1'">
-                <xsl:attribute name="class">comment_item highlight</xsl:attribute>
+                <xsl:attribute name="class">comments__item highlight</xsl:attribute>
             </xsl:if>
 
             <xsl:variable name="photo">

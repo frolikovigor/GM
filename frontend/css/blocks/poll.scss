@@ -1,0 +1,436 @@
+$color-background-detail: #265a88;
+$color-background-detail-hover: #337ab7;
+$color-font-detail: #fff;
+$color-medium-background: #fff;
+$color-poll-perc-value: #999;
+$color-poll-variants: #555;
+$color-poll-item-line: #ddd;
+$color-poll-mapselect: #ccc;
+$color-poll-background-percbar: #eee;
+$color-poll-percbar: #265a88;
+$color-poll-forarticle-info: #999;
+$color-poll-article-title: #555;
+$color-source-info: #aaa;
+$color-theme: #555;
+$color-theme-line: #eee;
+$color-warning: #999;
+
+.article--poll {
+  .vote {
+    margin-top: 5px;
+    position: relative;
+  }
+
+
+  td img {
+    padding: 0 1px 1px 0;
+  }
+
+  .tooltip-inner {
+    max-width: 150px !important;
+  }
+
+  span.detail {
+    background-color: $color-background-detail;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px -20px -20px;
+    overflow: hidden;
+    padding: 6px 20px 4px;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  span.detail:hover {
+    background-color: $color-background-detail-hover;
+  }
+
+  a.detail {
+    color: $color-font-detail;
+    text-decoration: none;
+  }
+
+  .image td {
+    position: relative;
+    text-align: center;
+  }
+
+  &.article--standart {
+    width: 100%;
+
+    .item label {
+      font-size: 14px;
+    }
+
+    div.image {
+      width: 588px;
+    }
+
+    .anons {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 15px;
+    }
+
+    .warning {
+      color: $color-warning;
+      font-size: 12px;
+      margin: 0 0 5px;
+    }
+  }
+
+  &.article--medium {
+    .image {
+      position: relative;
+
+      img {
+        height: auto;
+        max-width: 100%;
+      }
+    }
+
+    .for_article {
+      margin-bottom: 20px;
+
+      .info {
+        color: $color-poll-forarticle-info;
+        font-size: 12px;
+        margin: 10px 0;
+
+        .source {
+          float: right;
+        }
+      }
+
+      .label {
+        margin-left: 5px;
+      }
+
+      .article_title {
+        color: $color-poll-article-title;
+        font-size: 18px;
+        line-height: 12px;
+        vertical-align: middle;
+      }
+
+      img {
+        display: block;
+        float: left;
+        height: auto;
+        margin: 10px 15px 10px 0;
+        width: 200px;
+      }
+
+      .anons {
+        font-size: 14px;
+        line-height: 18px;
+        margin-top: 5px;
+      }
+
+      .open_cut {
+        font-size: 14px;
+      }
+    }
+
+    .infoblock {
+      .ib_description {
+        display: inline-block;
+        font-size: 14px;
+        line-height: 18px;
+        width: 180px;
+
+        a {
+          display: block;
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+
+      .image {
+        display: inline-block;
+        margin: 0 15px 10px 0;
+        vertical-align: top;
+        width: 220px;
+      }
+    }
+
+    &.advert {
+      background-color: transparent;
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  &.article--short {
+    margin-bottom: 2px;
+    overflow: hidden;
+    padding: 15px;
+    width: 293px;
+
+    .theme {
+      line-height: 16px;
+      padding: 0;
+      position: relative;
+
+      a {
+        color: $color-theme;
+        font-size: 14px;
+        line-height: 13px;
+        margin: 0;
+      }
+
+      & > img {
+        display: inline-block;
+        margin-right: 5px;
+        margin-top: -3px;
+        vertical-align: top;
+        width: 16px;
+      }
+    }
+
+    div.image {
+      height: auto;
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    .warning {
+      color: $color-warning;
+      font-size: 12px;
+      margin: 0 0 5px;
+    }
+  }
+}
+
+
+.article--poll__variants {
+  color: $color-poll-variants;
+  font-size: 12px;
+  margin: 10px 0 !important;
+  position: relative;
+
+  .item {
+    border-bottom: 1px solid $color-poll-item-line;
+    margin: 0;
+    overflow: hidden;
+    padding: 5px 0;
+    position: relative;
+  }
+
+  span.layer {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    z-index: 2;
+  }
+
+  .googleMapSelect {
+    color: $color-poll-mapselect;
+    font-size: 14pt;
+    vertical-align: middle;
+  }
+
+  .googleMapSelect.active {
+    color: $color-poll-perc-value;
+  }
+
+  /*.user_vote {
+    color: $color3;
+    margin-right: 5px;
+  }*/
+
+  label {
+    position: relative;
+    vertical-align: middle;
+    z-index: 1;
+  }
+
+  input[type='checkbox']{
+    height: 18px;
+    margin-right: 10px;
+    width: 18px;
+    z-index: 1;
+  }
+
+  .voices {
+    color: #bbb;
+    line-height: 12px;
+  }
+
+  div.percent_bar {
+    background-color: $color-poll-background-percbar;
+    margin: 5px 0;
+  }
+
+  span.percent_bar {
+    background-color: $color-poll-percbar;
+    display: block;
+    height: 10px;
+    z-index: 0;
+  }
+
+  .item:last-child {
+    border-bottom: none !important;
+  }
+
+  .item:hover {
+    cursor: pointer;
+  }
+
+  .width_voices {
+    max-width: 100px;
+    padding-left: 10px;
+    width: 100px;
+
+    &.width_voices_1 {
+      width: 75px;
+    }
+
+    &.width_voices_2 {
+      width: 80px;
+    }
+
+    &.width_voices_3 {
+      width: 85px;
+    }
+
+    &.width_voices_4 {
+      width: 90px;
+    }
+
+    &.width_voices_5 {
+      width: 95px;
+    }
+  }
+
+  .item {
+    input[type='checkbox'] {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      vertical-align: top;
+    }
+
+    .voted {
+      margin-right: 5px;
+      z-index: 1;
+    }
+
+    label {
+      cursor: pointer;
+      display: inline !important;
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 21px;
+      margin: -1px 0 0 !important;
+    }
+
+    label span.glyphicon {
+      font-size: 9pt;
+      margin-left: 5px;
+    }
+
+    .perc_value {
+      color: $color-poll-perc-value;
+      font-family: impact, arial, sans-serif;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.googleMap {
+  min-height: 100px;
+  position: relative;
+
+  &:before{
+    background: url(../../templates/iview/images/google_map_preloader.gif) no-repeat 0 0;
+    background-position: bottom;
+    content: "Загрузка карты";
+    display: block;
+    font-size: 14px;
+    height: 40px;
+    left: 50%;
+    margin-left: -126px;
+    margin-top: -20px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 1px 1px 0 $color5;
+    top: 50%;
+    width: 256px;
+    z-index: 2;
+  }
+
+  &.hidePreloader:before{
+    display: none;
+  }
+}
+
+.googleMapZoomOut {
+  bottom: 5px;
+  cursor: pointer;
+  display: block;
+  filter: alpha(opacity = 30);
+  font-size: 46px;
+  -khtml-opacity: .3;
+  -moz-opacity: .3;
+  opacity: .3;
+  position: absolute;
+  right: 5px;
+  top: auto;
+
+  &:hover {
+    -khtml-opacity: .7;
+    -moz-opacity: .7;
+    filter: alpha(opacity = 70);
+    opacity: .7;
+  }
+}
+
+
+
+@media only screen and ( max-width: 1220px ) {
+  .article--poll .item label {
+    font-size: 16px;
+  }
+}
+
+
+@media only screen and (max-width: 890px) {
+  .article--poll__variants .item input[type='checkbox']{
+    height: 20px;
+    width: 20px;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .article--poll.article--standart div.image {
+    width: 478px;
+  }
+
+  .article--poll.article--standart div.image img {
+    height: auto;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+
+  .article--poll.article--standart div.image {
+    width: 293px;
+  }
+
+  .article--poll.article--standart div.image img {
+    height: auto;
+    width: 100%;
+  }
+
+
+  .article--poll .multiple_ico {
+    margin-top: 8px;
+    width: 170px;
+  }
+}

@@ -27,6 +27,27 @@ export default class model {
         this.Poll = getPoll();
         this.Feed = getFeed();
         this.Images = getImages();
-    };
+    }
 
+    //Пагинация
+    Paginate(this_){
+        return new Promise(function(resolve, reject){
+            var udata = this_.attr("data-udata");
+            var transform = this_.attr("data-transform");
+            var page = this_.attr("data-page");
+            var search_string = this_.attr("data-search_string");
+
+            page = (page !== undefined) ? (parseInt(page) + 1) : 1;
+            this_.attr("data-page", page);
+            $.ajax({
+                url : udata+"?transform="+transform,
+                type : "POST",
+                dataType : 'html',
+                data : {p:page, search_string:search_string},
+                success : function(data) {
+                    resolve(data);
+                }
+            });
+        });
+    }
 }

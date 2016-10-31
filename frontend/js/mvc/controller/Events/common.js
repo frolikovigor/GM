@@ -18,6 +18,10 @@ export default class events{
 
     common(){
 
+        if ($(".paginated_ajax").length){
+            $(".paginated").remove();
+        }
+
         if ($("#homepage").length){
             $(".popular_categories img").hover(function(){
                 $(this).stop().animate({width:"160px", marginTop:"0px"},100);
@@ -27,17 +31,17 @@ export default class events{
         };
 
         //Вывод всех категорий
-        $("#navigation").on("click", ".all_categories", function(){
+        $(".main-header__navigation").on("click", ".all_categories", function(){
             var open = $(this).attr("data-open");
             if (open=="0"){
-                $("#navigation #all_catagories").slideDown("fast", function(){
+                $(".main-header__navigation #all_catagories").slideDown("fast", function(){
                     $(".grid-item").fadeIn("fast");
                     GM.View.Masonry.init();
                 });
                 $(this).attr("data-open", "1");
                 $("li.all_categories").addClass("active");
             } else {
-                $("#navigation #all_catagories").slideUp("fast");
+                $(".main-header__navigation #all_catagories").slideUp("fast");
                 $(this).attr("data-open", "0");
                 $("li.all_categories").removeClass("active");
             }
@@ -71,7 +75,9 @@ export default class events{
 
         //Ajax пагинация
         $("body").on("click", ".paginated_ajax", function(){
-            GM.View.Paginate($(this));
+            var block = $(this).attr("for-data-block");
+
+            GM.Model.Paginate($(this)).then((data) => GM.View.Paginate($(this), block, data));
         });
 
         //Лимит длины для textarea
@@ -123,27 +129,27 @@ export default class events{
             swipeStatus:function(event, phase, direction, distance, duration, fingers)
             {
                 if (phase=="move" && direction =="right") {
-                    $("#left_panel").animate({left:'0px'},200, function () {
-                        $("#left_panel").addClass("opened");
+                    $(".left_panel").animate({left:'0px'},200, function () {
+                        $(".left_panel").addClass("opened");
                     });
                     return false;
                 }
                 if (phase=="move" && direction =="left") {
-                    $("#left_panel").animate({left:'-220px'},200, function () {
-                        $("#left_panel").removeClass("opened");
+                    $(".left_panel").animate({left:'-220px'},200, function () {
+                        $(".left_panel").removeClass("opened");
                     });
                     return false;
                 }
             }
         });
         $("#open_sidebar").click(function () {
-            if ($("#left_panel").hasClass("opened")){
-                $("#left_panel").animate({left:'-220px'},200, function () {
-                    $("#left_panel").removeClass("opened");
+            if ($(".left_panel").hasClass("opened")){
+                $(".left_panel").animate({left:'-220px'},200, function () {
+                    $(".left_panel").removeClass("opened");
                 });
             } else {
-                $("#left_panel").animate({left:'0px'},200, function () {
-                    $("#left_panel").addClass("opened");
+                $(".left_panel").animate({left:'0px'},200, function () {
+                    $(".left_panel").addClass("opened");
                 });
             }
         });

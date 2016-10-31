@@ -1,0 +1,24 @@
+#search-results {
+  font-size: 0;
+  padding-top: 20px;
+  position: relative;
+  width: 100%;
+
+  .header {
+    background-color: $color8;
+    padding: 10px 15px;
+  }
+
+  .nav.nav-pills {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  .nav>li{
+    margin-right: 10px;
+  }
+
+  .nav>li>a {
+    padding: 2px 15px;
+  }
+}

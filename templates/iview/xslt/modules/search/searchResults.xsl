@@ -74,7 +74,7 @@
                 <xsl:choose>
                     <xsl:when test="$type-id = 71">
                         <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-                        <div class="content masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="20">
+                        <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20">
                             <xsl:apply-templates select="items/item" mode="getListVotes">
                                 <xsl:with-param name="h">h2</xsl:with-param>
                             </xsl:apply-templates>

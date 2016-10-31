@@ -15,7 +15,7 @@ export default function gridster(){
             var gridster_margins = [1,1];
             var max_size_item = [6,6];
 
-            newPoll_gridster = $(".new_poll_block .gridster ul").gridster({
+            newPoll_gridster = $(".new_poll .gridster ul").gridster({
                 widget_margins: gridster_margins,
                 widget_base_dimensions: [145, 100],
                 resize: {
@@ -47,9 +47,9 @@ export default function gridster(){
             );
 
             //Отключение контекстного меню
-            $(".new_poll_block .gridster").closest("#new_poll_form").on("contextmenu", false);
+            $(".new_poll .gridster").closest("#new_poll_form").on("contextmenu", false);
 
-            $(".new_poll_block .gridster ul li").mousedown(function(event){
+            $(".new_poll .gridster ul li").mousedown(function(event){
                 if (event.preventDefault)
                     event.preventDefault()
                 else
@@ -62,7 +62,7 @@ export default function gridster(){
                 }
             });
 
-            $(".new_poll_block .gridster ul li").hover(
+            $(".new_poll .gridster ul li").hover(
                 function(){
                     $(this).find(".remove").fadeIn();
                     $(this).find(".move").fadeIn();
@@ -114,7 +114,7 @@ export default function gridster(){
                 }
             });
 
-            $(".new_poll_block .gridster ul li .move").mousedown(function(event){
+            $(".new_poll .gridster ul li .move").mousedown(function(event){
                 if (event.preventDefault)
                     event.preventDefault();
                 else
@@ -133,7 +133,7 @@ export default function gridster(){
             });
 
             //Изменение масштаба изображений
-            $(".new_poll_block .gridster ul li").unbind('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
+            $(".new_poll .gridster ul li").unbind('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
                 if ($(this).attr("data-width") == undefined) $(this).attr("data-width","100");
                 var width = parseInt($(this).attr("data-width"));
                 var delta = Math.floor(2*(width / 100));
@@ -159,7 +159,7 @@ export default function gridster(){
             return new Promise(function(resolve, reject) {
                 var stat = true;
                 if (viewImageTimer) clearInterval(viewImageTimer);
-                $(".new_poll_block .gridster ul li img").each(function(){
+                $(".new_poll .gridster ul li img").each(function(){
                     if (!$(this).height()) stat = false;
                 });
                 if (!stat){
@@ -174,8 +174,8 @@ export default function gridster(){
 
                 clearInterval(viewImageTimer);
 
-                $(".new_poll_block .images").css("height", "auto");   //При перезагрузке страницы refreshNewPoll, устанавливается высота, чтобы не было скачков. Здесь сбрасывается.
-                $(".new_poll_block .gridster ul li").each(function(){
+                $(".new_poll .images").css("height", "auto");   //При перезагрузке страницы refreshNewPoll, устанавливается высота, чтобы не было скачков. Здесь сбрасывается.
+                $(".new_poll .gridster ul li").each(function(){
                     this__.reViewImage($(this));
                 });
 
@@ -186,12 +186,12 @@ export default function gridster(){
 
                 newPoll_gridsterTimer = setTimeout(function(){
                     var total_height = 0;
-                    $(".new_poll_block .gridster ul li").each(function(){
+                    $(".new_poll .gridster ul li").each(function(){
                         var li = $(this);
                         var getSizeY = parseInt(li.attr('data-row')) + parseInt(li.attr('data-sizey')) - 1;
                         if (getSizeY > total_height) total_height = getSizeY;
                     });
-                    if (total_height > 6) $(".new_poll_block .images").addClass("error"); else $(".new_poll_block .images").removeClass("error");
+                    if (total_height > 6) $(".new_poll .images").addClass("error"); else $(".new_poll .images").removeClass("error");
                     resolve();
 
                 }, 1000);

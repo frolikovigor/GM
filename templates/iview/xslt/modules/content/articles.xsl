@@ -37,7 +37,7 @@
                     <div class="sidebar_item">
                         <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
                         <div class="hidden_block hidden_block_content">
-                            <xsl:apply-templates select="document(concat('udata://news/getFitNews/',$getArticle//obj_id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/',$settings//property[@name='poll_page_feed_per_page']/value))//part" mode="article_fit_news" />
+                            <!--<xsl:apply-templates select="document(concat('udata://news/getFitNews/',$getArticle//obj_id,'/',$settings//property[@name='poll_page_feed_polls_per_page']/value,'/',$settings//property[@name='poll_page_feed_per_page']/value))//part" mode="article_fit_news" />-->
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                 <xsl:choose>
                     <!-- Статья standart -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '153'">
-                        <div class="article {$type} article{$id} {$is_active}" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active}" data-id="{$id}">
                             <div class="theme">
                                 <xsl:if test="(($getArticle//field[@name='_current_user']/@id  = '2') and ($getArticle//field[@name='_current_user']/@auth = '1')) or (($getArticle//field[@name='_current_user']/@auth = '1') and ($getArticle//field[@name='_current_user']/@id = $getArticle//field[@name='_article_user']/value))">
                                     <div class="dropdown settings_item">
@@ -146,7 +146,7 @@
                                 <xsl:text disable-output-escaping="yes">&lt;/</xsl:text><xsl:value-of select="$h" /><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="article_categories" />
                                 <xsl:if test="$getArticle//field[@name='source_url']/value != ''">
                                     <span class="source">Источник:
@@ -191,12 +191,12 @@
                                     <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
                                 </xsl:call-template>
                             </xsl:if>
-                        </div>
+                        </article>
                     </xsl:when>
 
                     <!-- Новость standart -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '154'">
-                        <div class="article {$type} article{$id} {$is_active}" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active}" data-id="{$id}">
                             <div class="theme">
                                 <xsl:if test="(($getArticle//field[@name='_current_user']/@id  = '2') and ($getArticle//field[@name='_current_user']/@auth = '1')) or (($getArticle//field[@name='_current_user']/@auth = '1') and ($getArticle//field[@name='_current_user']/@id = $getArticle//field[@name='_article_user']/value))">
                                     <div class="dropdown settings_item">
@@ -227,7 +227,7 @@
                                 <xsl:text disable-output-escaping="yes">&lt;/</xsl:text><xsl:value-of select="$h" /><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="article_categories" />
                                 <xsl:if test="$getArticle//field[@name='source_url']/value != ''">
                                     <span class="source">Источник:
@@ -272,12 +272,12 @@
                                     <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
                                 </xsl:call-template>
                             </xsl:if>
-                        </div>
+                        </article>
                     </xsl:when>
 
                     <!-- Фильм standart -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '157'">
-                        <div class="article {$type} article{$id} {$is_active}" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active}" data-id="{$id}">
                             <div class="theme">
                                 <xsl:if test="(($getArticle//field[@name='_current_user']/@id  = '2') and ($getArticle//field[@name='_current_user']/@auth = '1')) or (($getArticle//field[@name='_current_user']/@auth = '1') and ($getArticle//field[@name='_current_user']/@id = $getArticle//field[@name='_article_user']/value))">
                                     <div class="dropdown settings_item">
@@ -308,7 +308,7 @@
                                 <xsl:text disable-output-escaping="yes">&lt;/</xsl:text><xsl:value-of select="$h" /><xsl:text disable-output-escaping="yes">&gt;</xsl:text>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="article_categories" />
                                 <xsl:if test="$getArticle//field[@name='source_url']/value != ''">
                                     <span class="source">Источник:
@@ -374,7 +374,7 @@
                                     <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
                                 </xsl:call-template>
                             </xsl:if>
-                        </div>
+                        </article>
                     </xsl:when>
                 </xsl:choose>
 
@@ -386,13 +386,13 @@
                 <xsl:choose>
                     <!-- Статья medium -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '153'">
-                        <div class="article {$type} article{$id} {$is_active} shadow" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active} shadow" data-id="{$id}">
 
                             <div class="theme" title="{$getArticle//field[@name='h1']/value}">
                                 <a href="{$link}"><xsl:value-of select="$getArticle//field[@name='h1']/value" /></a>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="poll_categories" />
                                 <span class="date"><xsl:value-of select="$getArticle//field[@name='date']/value/@formatted-date" /></span>
                             </div>
@@ -409,18 +409,18 @@
                                 </div>
                                 <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
                             </div>
-                        </div>
+                        </article>
                     </xsl:when>
 
                     <!-- Новость medium -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '154'">
-                        <div class="article {$type} article{$id} {$is_active} shadow" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active} shadow" data-id="{$id}">
 
                             <div class="theme" title="{$getArticle//field[@name='h1']/value}">
                                 <a href="{$link}"><xsl:value-of select="$getArticle//field[@name='h1']/value" /></a>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="poll_categories" />
                                 <span class="date"><xsl:value-of select="$getArticle//field[@name='date']/value/@formatted-date" /></span>
                             </div>
@@ -437,18 +437,18 @@
                                 </div>
                                 <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
                             </div>
-                        </div>
+                        </article>
                     </xsl:when>
 
                     <!-- Фильм medium -->
                     <xsl:when test="$getArticle//field[@name='_type']/value/@id = '157'">
-                        <div class="article {$type} article{$id} {$is_active} shadow" data-id="{$id}">
+                        <article class="article article--article article--{$type} article{$id} {$is_active} shadow" data-id="{$id}">
 
                             <div class="theme" title="{$getArticle//field[@name='h1']/value}">
                                 <a href="{$link}"><xsl:value-of select="$getArticle//field[@name='h1']/value" /></a>
                             </div>
 
-                            <div class="article_navbar"><span>Раздел: </span>
+                            <div class="source-info"><span>Раздел: </span>
                                 <xsl:apply-templates select="$getArticle//field[@name='_categories']//item" mode="poll_categories" />
                                 <span class="date"><xsl:value-of select="$getArticle//field[@name='date']/value/@formatted-date" /></span>
                             </div>
@@ -465,7 +465,7 @@
                                 </div>
                                 <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
                             </div>
-                        </div>
+                        </article>
                     </xsl:when>
                 </xsl:choose>
             </xsl:when>
@@ -493,19 +493,19 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="part" mode="article_fit_news">
-        <div class="title_block">
-            <div><xsl:value-of select="@type" /></div>
-            <span class="right_text"><xsl:value-of select="@title" /></span>
-        </div>
-        <xsl:apply-templates select="items//item" mode="article_fit_new" />
-    </xsl:template>
+    <!--<xsl:template match="part" mode="article_fit_news">-->
+        <!--<div class="title_block">-->
+            <!--<div><xsl:value-of select="@type" /></div>-->
+            <!--<span class="right_text"><xsl:value-of select="@title" /></span>-->
+        <!--</div>-->
+        <!--<xsl:apply-templates select="items//item" mode="article_fit_new" />-->
+    <!--</xsl:template>-->
 
-    <xsl:template match="item" mode="article_fit_new">
-        <div class="news short" data-id="{@id}" data-source="bd">
-            <img src="{@image_120}" width="120" />
-            <xsl:value-of select=".//title" disable-output-escaping="yes" />
-        </div>
-    </xsl:template>
+    <!--<xsl:template match="item" mode="article_fit_new">-->
+        <!--<div class="news short" data-id="{@id}" data-source="bd">-->
+            <!--<img src="{@image_120}" width="120" />-->
+            <!--<xsl:value-of select=".//title" disable-output-escaping="yes" />-->
+        <!--</div>-->
+    <!--</xsl:template>-->
 
 </xsl:stylesheet>

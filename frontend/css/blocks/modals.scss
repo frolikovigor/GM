@@ -1,0 +1,164 @@
+#authorization {
+  .preloader {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .modal-body .row .row div {
+    padding-right: 0 !important;
+
+    select {
+      padding: 2px !important;
+    }
+  }
+
+  .required::after {
+    color: $color11;
+    content: "*";
+    margin-left: 3px;
+  }
+}
+
+#new_feed_modal {
+  .modal-footer {
+    text-align: left;
+  }
+
+  .modal-footer button.apply {
+    float: right;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+#captcha_enter {
+  #captcha_reset {
+    color: $color1;
+    cursor: pointer;
+    font-size: 16pt;
+    margin: 0 30px 0 0;
+    vertical-align: middle;
+  }
+
+  #captcha{
+    font-size: 14pt;
+    height: 30px;
+    padding: 5px;
+    vertical-align: middle;
+    width: 200px;
+  }
+
+  .modal-body {
+    text-align: center;
+  }
+
+  .modal-footer {
+    text-align: left !important;
+
+    .apply {
+      float: right;
+      width: 100px;
+    }
+  }
+
+  .preloader.captcha {
+    margin-left: 10px;
+  }
+}
+
+#upload_image {
+  .preloader {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .modal-footer {
+    text-align: left;
+
+    .apply {
+      float: right;
+    }
+  }
+
+  .progress_bar {
+    font-size: 14px;
+    margin-left: 20px;
+  }
+
+  .cropper {
+    position: relative;
+    width: 100%;
+  }
+}
+
+#feedback textarea {
+  height: 80px;
+  resize: none;
+
+  .modal-footer {
+    text-align: left !important;
+
+    .apply {
+      float: right;
+      width: 80px;
+    }
+  }
+}
+
+#news_view_from_bd {
+  .modal-footer {
+    text-align: left;
+
+    .apply {
+      float: right;
+      width: 213px;
+    }
+  }
+
+  .modal-body {
+    font-size: 14px;
+    overflow: auto;
+
+    h2 {
+      font-size: 18px;
+      margin: 5px 0 15px;
+    }
+
+    .for_article_content {
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    img {
+      float: left;
+      margin: 0 20px 10px 0;
+    }
+  }
+
+  .info {
+    color: $color4;
+    font-size: 12px;
+    margin: 0 0 10px;
+
+    .source {
+      float: right;
+    }
+  }
+}
+
+#not_enough_data_poll img {
+  display: inline-block;
+  float: left;
+  margin-right: 20px;
+}
+
+.modal.modal-wide .modal-dialog {
+  max-width: 940px;
+  width: 90%;
+}
+
+.modal-dialog .modal-header.bg {
+  border-radius: 5px 5px 0 0;
+}

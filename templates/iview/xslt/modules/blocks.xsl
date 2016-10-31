@@ -17,63 +17,61 @@
 
 	<xsl:template name="header">
         <header class="main-header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
-            <div class="content">
-                <div class="logo"><a href="/">Glas<span>Media</span></a></div>
+            <div class="logo"><a href="/">Glas<span>Media</span></a></div>
 
-                <nav id="navigation">
-                    <xsl:if test="$user-type != 'guest'">
-                        <xsl:attribute name="class">margin</xsl:attribute>
-                    </xsl:if>
+            <nav class="main-header__navigation">
+                <xsl:if test="$user-type != 'guest'">
+                    <xsl:attribute name="class">main-header__navigation margin</xsl:attribute>
+                </xsl:if>
 
-                    <div class="content">
-                        <span id="open_sidebar" class="glyphicon glyphicon-th-list"></span>
-                        <ul>
-                            <li class="first">
-                                <xsl:if test="$document-page-id = $main-page-id">
-                                    <xsl:attribute name="class">first active</xsl:attribute>
-                                </xsl:if>
-                                <a href="/">Главная</a>
-                            </li>
-                            <xsl:apply-templates select="document('udata://vote/xsltCache/31536000/(udata://menu/draw/3807/)')//item" mode="navigation_item" />
-                            <li class="search">
-                                <form id="search-results-form" method="get" action="/search/s/">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-sm" name="search_string" placeholder="Поиск..." value="{//last_search_string}" />
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                                        </span>
-                                    </div>
-                                    <input id="search-results-type" type="hidden" name="search_types" value="{sections//section[@selected='1']/@type-id}" />
-                                </form>
-                            </li>
-                            <li class="all_categories" data-open="0">
-                                <a href="#">Все разделы <span class="caret"></span></a>
-                            </li>
-                        </ul>
-                        <div class="cl">&nbsp;</div>
-                        <div id="all_catagories">
-                            <div class="masonry js-masonry" data-class-masonry="grid-item" data-masonry-gutter="0">
-                                <xsl:apply-templates select="document('udata://vote/xsltCache/31536000/(usel://uniq/1/7/133/)')//page" mode="all_catagories" />
-                            </div>
+                <div class="content">
+                    <span id="open_sidebar" class="glyphicon glyphicon-th-list"></span>
+                    <ul>
+                        <li class="first">
+                            <xsl:if test="$document-page-id = $main-page-id">
+                                <xsl:attribute name="class">first active</xsl:attribute>
+                            </xsl:if>
+                            <a href="/">Главная</a>
+                        </li>
+                        <xsl:apply-templates select="document('udata://vote/xsltCache/31536000/(udata://menu/draw/3807/)')//item" mode="navigation_item" />
+                        <li class="search">
+                            <form id="search-results-form" method="get" action="/search/s/">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-sm" name="search_string" placeholder="Поиск..." value="{//last_search_string}" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                                    </span>
+                                </div>
+                                <input id="search-results-type" type="hidden" name="search_types" value="{sections//section[@selected='1']/@type-id}" />
+                            </form>
+                        </li>
+                        <li class="all_categories" data-open="0">
+                            <a href="#">Все разделы <span class="caret"></span></a>
+                        </li>
+                    </ul>
+                    <div class="cl">&nbsp;</div>
+                    <div id="all_catagories">
+                        <div class="masonry js-masonry" data-class-masonry="grid-item" data-masonry-gutter="0">
+                            <xsl:apply-templates select="document('udata://vote/xsltCache/31536000/(usel://uniq/1/7/133/)')//page" mode="all_catagories" />
                         </div>
                     </div>
-                </nav>
-                <xsl:choose>
-                    <xsl:when test="$user-type = 'guest'">
-                        <button class="btn btn-default btn-sm" id="authorization_btn" data-toggle="modal" data-target="#authorization"><span class="glyphicon glyphicon-log-in"></span><xsl:text> </xsl:text>Войти</button>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <a class="logout" href="/users/logout/"><button class="btn btn-default btn-sm" id="authorization_btn" data-toggle="modal" data-target="#authorization"><span class="glyphicon glyphicon-log-out"></span></button></a>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </div>
+                </div>
+            </nav>
+            <xsl:choose>
+                <xsl:when test="$user-type = 'guest'">
+                    <button class="btn btn-default btn-sm" id="authorization_btn" data-toggle="modal" data-target="#authorization"><span class="glyphicon glyphicon-log-in"></span><xsl:text> </xsl:text>Войти</button>
+                </xsl:when>
+                <xsl:otherwise>
+                    <a class="logout" href="/users/logout/"><button class="btn btn-default btn-sm" id="authorization_btn" data-toggle="modal" data-target="#authorization"><span class="glyphicon glyphicon-log-out"></span></button></a>
+                </xsl:otherwise>
+            </xsl:choose>
         </header>
         <!-- end of header -->
 	</xsl:template>
 
     <!-- Левая панель -->
     <xsl:template name="panel">
-        <div id="left_panel" class="shadow" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+        <aside class="left_panel shadow" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
             <xsl:if test="$user-type != 'guest'">
                 <ul>
                     <li><a href="/cabinet/feeds/"><span class="icon glyphicon glyphicon-th-large"></span>Мои ленты</a></li>
@@ -143,7 +141,7 @@
             </ul>
 
             <div class="swipe-area"></div>
-        </div>
+        </aside>
     </xsl:template>
 
     <xsl:template name="panel_info">
@@ -155,11 +153,11 @@
 
     <xsl:template name="likes_and_share">
         <xsl:param name="obj_id" />
-        <div class="likes_and_share">
+        <!--<div class="likes_and_share">
             <span class="likes"><span class="glyphicon glyphicon-thumbs-up"></span>Нравится<span class="value">12</span></span>
             <span class="dislikes"><span class="glyphicon glyphicon-thumbs-down"></span>Не нравится<span class="value">4</span></span>
             <span class="share"><span class="glyphicon glyphicon-share-alt"></span>Поделиться</span>
-        </div>
+        </div>-->
     </xsl:template>
 
     <xsl:template match="item" mode="getListVotes">
@@ -178,7 +176,7 @@
                 <xsl:variable name="pos" select="position() div $advert" />
                 <xsl:variable name="advert_value" select="$settings//property[@name=concat('advert_',$pos)]/value" />
                 <xsl:if test="$advert_value != ''">
-                    <div class="poll medium advert">
+                    <div class="article article--poll article--medium advert">
                         <xsl:value-of select="$advert_value" disable-output-escaping="yes" />
                     </div>
                 </xsl:if>
@@ -369,68 +367,6 @@
 
     </xsl:template>
 
-    <xsl:template name="filters_section">
-        <xsl:param name="link_new" select="1" />
-        <xsl:param name="link_old" select="1" />
-        <xsl:param name="popularity" select="1" />
-        <xsl:param name="fit" select="1" />
-
-        <div class="section_title">
-            <div class="title">
-                <xsl:choose>
-                    <xsl:when test="($sort = 'new') or not($sort) or ($sort and ($sort!='new') and ($sort!='old') and ($sort!='popularity') and ($sort!='fit'))">
-                        Новые опросы
-                    </xsl:when>
-                    <xsl:when test="$sort = 'old'">
-                        Сначала старые
-                    </xsl:when>
-                    <xsl:when test="$sort = 'popularity'">
-                        Популярные опросы
-                    </xsl:when>
-                    <xsl:when test="$sort = 'fit'">
-                        Подобранные
-                    </xsl:when>
-                </xsl:choose>
-
-
-                <xsl:text> </xsl:text><span class="glyphicon glyphicon-forward"></span>
-            </div>
-            <div class="sort_list">
-                <xsl:if test="$link_new = '1'">
-                    <a href="{$document-link}?sort=new">
-                        <xsl:if test="($sort = 'new') or not($sort) or ($sort and ($sort!='new') and ($sort!='old') and ($sort!='popularity') and ($sort!='fit'))">
-                            <xsl:attribute name="class">active</xsl:attribute>
-                        </xsl:if>
-                        <xsl:text>Новые опросы</xsl:text>
-                    </a>
-                </xsl:if>
-                <xsl:if test="$link_old = '1'">
-                    <a href="{$document-link}?sort=old">
-                        <xsl:if test="$sort = 'old'">
-                            <xsl:attribute name="class">active</xsl:attribute>
-                        </xsl:if>
-                        <xsl:text>Сначала старые</xsl:text>
-                    </a>
-                </xsl:if>
-                <xsl:if test="$popularity = '1'">
-                    <a href="{$document-link}?sort=popularity">
-                        <xsl:if test="$sort = 'popularity'">
-                            <xsl:attribute name="class">active</xsl:attribute>
-                        </xsl:if>
-                        <xsl:text>Популярные опросы</xsl:text>
-                    </a>
-                </xsl:if>
-                <xsl:if test="$fit">
-                    <a href="{$document-link}?sort=fit">
-                        <xsl:if test="$sort = 'fit'">
-                            <xsl:attribute name="class">active</xsl:attribute>
-                        </xsl:if>
-                        <xsl:text>Подобранные</xsl:text>
-                    </a>
-                </xsl:if>
-            </div>
-        </div>
-    </xsl:template>
 
     <xsl:template match="item" mode="notifications">
         <xsl:choose>

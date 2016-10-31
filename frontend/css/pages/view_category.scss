@@ -1,0 +1,22 @@
+#view_category {
+  font-size: 0;
+  padding-top: 10px;
+  position: relative;
+  width: 100%;
+
+  .category_empty {
+    margin: 0 auto;
+    white-space: nowrap;
+    width: 305px;
+
+    button {
+      margin-right: 78px;
+    }
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  #view_category {
+    padding-top: 10px;
+  }
+}

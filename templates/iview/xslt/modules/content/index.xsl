@@ -31,17 +31,15 @@
     </xsl:template>
 
     <xsl:template match="feed" mode="getListFitFeedsPreview">
-        <div class="poll medium feed_medium">
-            <xsl:call-template name="feed_preview">
-                <xsl:with-param name="id" select="@id" />
-                <xsl:with-param name="per_page" select="$settings//property[@name='homepage_num_poll_in_feed']/value" />
-                <xsl:with-param name="pagination">2</xsl:with-param>
-                <xsl:with-param name="sort_polls">fit</xsl:with-param>
-                <xsl:with-param name="enable_link_feed">1</xsl:with-param>
-                <xsl:with-param name="enable_link_create">0</xsl:with-param>
-                <xsl:with-param name="h1">0</xsl:with-param>
-            </xsl:call-template>
-        </div>
+        <xsl:call-template name="feed_preview">
+            <xsl:with-param name="id" select="@id" />
+            <xsl:with-param name="per_page" select="$settings//property[@name='homepage_num_poll_in_feed']/value" />
+            <xsl:with-param name="pagination">2</xsl:with-param>
+            <xsl:with-param name="sort_polls">fit</xsl:with-param>
+            <xsl:with-param name="enable_link_feed">1</xsl:with-param>
+            <xsl:with-param name="enable_link_create">0</xsl:with-param>
+            <xsl:with-param name="h1">0</xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
 
@@ -76,6 +74,7 @@
         <xsl:param name="enabled_list_fit_feeds">true</xsl:param>
 
         <div id="homepage" class="shift_right">
+
             <xsl:if test="$enabled_popular_categories = 'true'">
                 <div class="shell">
                     <div class="popular_categories">
@@ -84,6 +83,7 @@
                     <div class="cl"></div>
                 </div>
             </xsl:if>
+
             <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/7/',$settings//property[@name='homepage_num_poll_new']/value,'/auto/1/609/1/int_val/1'))" />
             <div class="shell">
                 <div class="title_block light">
@@ -108,9 +108,9 @@
 
                 <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
 
-                <div class="content masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="20" data-block="1">
+                <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
 
-                    <div class="poll medium shadow new_poll_block" data-type="fast" data-for=""
+                    <div class="article article--medium shadow new_poll" data-type="fast" data-for=""
                          data-tooltips-id="{$tooltips//item[@id='1']/@id}"
                          data-tooltips-content="{$tooltips//item[@id='1']/@content}"
                          data-tooltips-pos="{$tooltips//item[@id='1']/@pos}"

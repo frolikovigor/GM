@@ -172,8 +172,8 @@ export default class view{
     Goto(){
         var goto = $("#service-information").attr("data-goto");
         if (goto)
-            if ($(".poll."+goto).length){
-                var destination = $(".poll."+goto).offset().top;
+            if ($(".article."+goto).length){
+                var destination = $(".article."+goto).offset().top;
                 destination -= 50;
                 if (destination > 0)
                     $('html,body').animate( { scrollTop: destination }, 600);
@@ -182,59 +182,53 @@ export default class view{
     };
 
     //Пагинация
-    Paginate(this_){
-        var block = this_.attr("for-data-block");
-        var udata = this_.attr("data-udata");
-        var transform = this_.attr("data-transform");
-        var page = this_.attr("data-page");
-        var search_string = this_.attr("data-search_string");
+    Paginate(this_, block, data){
+        var parsedHtml = $.parseHTML(data);
 
-        page = (page !== undefined) ? (parseInt(page) + 1) : 1;
-        this_.attr("data-page", page);
-        $.ajax({
-            url : udata+"?transform="+transform,
-            type : "POST",
-            dataType : 'html',
-            data : {p:page, search_string:search_string},
-            success : function(data) {
-                var parsedHtml = $.parseHTML(data);
+        $("[data-block='"+block+"']").append(data);
 
-                $("[data-block='"+block+"']").append(data);
+        var selector = "";
+        var first=true;
+        var firstElement = "";
 
-                var selector = "";
-                var first=true;
+        for (var i = 0; i < parsedHtml.length; i++) {
+            if (parsedHtml[i].nodeName == "ARTICLE")
+                if (parsedHtml[i].hasAttribute("data-id")){
 
-                for (var i = 0; i < parsedHtml.length; i++) {
-                    if (parsedHtml[i].nodeName == "DIV")
-                        if (parsedHtml[i].hasAttribute("data-id")){
-                            var pollId = parsedHtml[i].getAttribute("data-id");
-                            if (pollId){
-                                if (!first) selector += ",";
-                                selector += ".poll.poll"+pollId;
-                                first = false;
-                            }
-                        }
+                    var pollId = parsedHtml[i].getAttribute("data-id");
+                    if (pollId){
+                        if (first){
+                            firstElement = pollId;
+                        } else
+                            selector += ",";
+
+                        selector += ".article.poll"+pollId;
+                        first = false;
+                    }
                 }
+        }
 
-                $(selector).css("opacity","0.01");
+        $(selector).css("opacity","0.01");
 
-                $("[data-block='"+block+"']").waitForImages(function() {
-                    GM.View.CutContent();
-                    GM.View.Comments.Init();
-                    GM.View.Masonry.init();
-                    GM.View.InitCaptcha();
-                    if ($("[data-block='"+block+"'] .last_page").length){
-                        this_.remove();
-                        $("[data-block='"+block+"'] .last_page").remove();
-                    } else
-                        this_.removeClass('wait');
+        $("[data-block='"+block+"']").waitForImages(function() {
+            GM.View.CutContent();
+            GM.View.Comments.Init();
+            GM.View.Masonry.init();
+            GM.View.InitCaptcha();
+            if ($("[data-block='"+block+"'] .last_page").length){
+                this_.remove();
+                $("[data-block='"+block+"'] .last_page").remove();
+            } else
+                this_.removeClass('wait');
 
-                    $(selector).animate({opacity:1.0},300, function(){
+            if (firstElement){
+                $("#service-information").attr("data-goto", "poll"+firstElement);
+                GM.View.Goto();
+            };
 
-                    });
-                })
-            }
-        });
+            $(selector).animate({opacity:1.0},300, function(){
+            });
+        })
     }
     
 };

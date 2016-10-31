@@ -38,7 +38,7 @@
                     <div class="content">
                         <div class="shell">
                             <div class="header shadow">
-                                <div class="title">
+                                <div class="header__title">
                                     <span class="glyphicon glyphicon-user"></span>
                                     <h1>
                                         Мои настройки
@@ -48,7 +48,7 @@
                                 <xsl:variable name="category_subcat" select="document(concat('udata://content/menu///',3259))//item" />
 
                                 <xsl:if test="count($category_subcat)">
-                                    <ul class="subcategories">
+                                    <ul class="header__categories">
                                         <li><span class="glyphicon glyphicon-folder-open"></span></li>
                                         <xsl:apply-templates select="$category_subcat" mode="category_subcat" />
                                     </ul>
@@ -85,7 +85,7 @@
                     <xsl:otherwise>
                         <div class="shell">
                             <div class="header shadow">
-                                <div class="title">
+                                <div class="header__title">
                                     <h1>
                                         <xsl:value-of select="//property[@name='h1']/value" />
                                         <span></span>
@@ -101,7 +101,8 @@
                             </div>
 
                             <xsl:variable name="getListVotesOfUser" select="document('udata://vote/getListVotesOfUser/')" />
-                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="20" data-block="1">
+
+                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
                                 <xsl:apply-templates select="$getListVotesOfUser//item" mode="getListVotes">
                                     <xsl:with-param name="type">medium</xsl:with-param>
                                     <xsl:with-param name="view_url">true</xsl:with-param>
@@ -143,25 +144,29 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:variable name="getListFeeds" select="document('udata://vote/getListFeeds/user/')" />
-                    <div class="content">
-                        <div id="cabinet_my_feeds">
-                            <div class="shell">
-                                <div class="header shadow">
-                                    <div class="title">
-                                        <h1>
-                                            <xsl:value-of select="//property[@name='h1']/value" />
-                                            <span></span>
-                                        </h1>
-                                    </div>
-                                    <xsl:call-template name="filters">
-                                        <xsl:with-param name="type">link</xsl:with-param>
-                                        <xsl:with-param name="link_new" select="1" />
-                                        <xsl:with-param name="link_old" select="1" />
-                                        <xsl:with-param name="popularity" select="1" />
-                                        <xsl:with-param name="fit" select="0" />
-                                    </xsl:call-template>
-                                </div>
 
+                    <div id="cabinet_my_feeds">
+                        <div class="shell">
+
+                            <div class="header shadow">
+                                <div class="header__title">
+                                    <h1>
+                                        <xsl:value-of select="//property[@name='h1']/value" />
+                                        <span></span>
+                                    </h1>
+                                </div>
+                                <xsl:call-template name="filters">
+                                    <xsl:with-param name="type">link</xsl:with-param>
+                                    <xsl:with-param name="link_new" select="1" />
+                                    <xsl:with-param name="link_old" select="1" />
+                                    <xsl:with-param name="popularity" select="1" />
+                                    <xsl:with-param name="fit" select="0" />
+                                </xsl:call-template>
+                            </div>
+
+                            <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
+
+                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
                                 <xsl:choose>
                                     <xsl:when test="count($getListFeeds//feed)">
                                         <form class="my_feeds">
@@ -169,14 +174,15 @@
                                                 <xsl:with-param name="label_enabled">1</xsl:with-param>
                                             </xsl:apply-templates>
                                         </form>
-                                        <div class="paginated">
-                                            <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListFeeds//total,'/',$getListFeeds//per_page,'/'))"  mode="paginated" />
-                                        </div>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <div class="alert alert-warning" role="alert">У Вас пока нет лент.</div>
                                     </xsl:otherwise>
                                 </xsl:choose>
+                            </div>
+
+                            <div class="paginated">
+                                <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListFeeds//total,'/',$getListFeeds//per_page,'/'))"  mode="paginated" />
                             </div>
                         </div>
                     </div>
@@ -207,7 +213,7 @@
                     <xsl:otherwise>
                         <div class="shell">
                             <div class="header shadow">
-                                <div class="title">
+                                <div class="header__title">
                                     <h1>
                                         <xsl:value-of select="//property[@name='h1']/value" />
                                         <span></span>
@@ -223,7 +229,7 @@
                             </div>
 
                             <xsl:variable name="getListArticlesOfUser" select="document('udata://content/getListArticlesOfUser/')" />
-                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article" data-masonry-gutter="20" data-block="1">
+                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
                                 <xsl:apply-templates select="$getListArticlesOfUser//article" mode="getListArticles">
                                     <xsl:with-param name="type">medium</xsl:with-param>
                                     <xsl:with-param name="view_url">true</xsl:with-param>
@@ -253,6 +259,7 @@
 
         <div id="cabinet" class="shift_right">
             <xsl:choose>
+
                 <xsl:when test="$user-type = 'guest'">
                     <div class="set_info alert alert-danger hide" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -261,26 +268,31 @@
                         <a href="#" class="alert-link" onclick="$('#authorization_btn').click(); return false;">Авторизация</a>
                     </div>
                 </xsl:when>
+
                 <xsl:otherwise>
                     <xsl:variable name="getListFeeds" select="document('udata://vote/getListFeeds/subscribe/')" />
-                    <div class="content">
-                        <div id="cabinet_my_subscribe">
-                            <div class="shell">
-                                <div class="header shadow">
-                                    <div class="title">
-                                        <h1>
-                                            <xsl:value-of select="//property[@name='h1']/value" />
-                                            <span></span>
-                                        </h1>
-                                    </div>
-                                    <xsl:call-template name="filters">
-                                        <xsl:with-param name="type">link</xsl:with-param>
-                                        <xsl:with-param name="link_new" select="1" />
-                                        <xsl:with-param name="link_old" select="1" />
-                                        <xsl:with-param name="popularity" select="1" />
-                                        <xsl:with-param name="fit" select="0" />
-                                    </xsl:call-template>
+
+                    <div id="cabinet_my_subscribe">
+                        <div class="shell">
+                            <div class="header shadow">
+                                <div class="header__title">
+                                    <h1>
+                                        <xsl:value-of select="//property[@name='h1']/value" />
+                                        <span></span>
+                                    </h1>
                                 </div>
+                                <xsl:call-template name="filters">
+                                    <xsl:with-param name="type">link</xsl:with-param>
+                                    <xsl:with-param name="link_new" select="1" />
+                                    <xsl:with-param name="link_old" select="1" />
+                                    <xsl:with-param name="popularity" select="1" />
+                                    <xsl:with-param name="fit" select="0" />
+                                </xsl:call-template>
+                            </div>
+
+                            <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
+
+                            <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
 
                                 <xsl:choose>
                                     <xsl:when test="count($getListFeeds//feed)">
@@ -298,6 +310,7 @@
                             </div>
                         </div>
                     </div>
+
                 </xsl:otherwise>
             </xsl:choose>
         </div>

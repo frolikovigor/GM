@@ -61,34 +61,37 @@
         <xsl:call-template name="header" />
         <xsl:call-template name="panel" />
         <xsl:call-template name="panel_info" />
+
         <div id="all_feed_list" class="shift_right">
             <xsl:variable name="getListFeeds" select="document('udata://vote/getListFeeds/')" />
 
             <div class="shell">
-                <div class="content">
-                    <div class="header">
-                        <div class="title">
-                            <h1>
-                                <xsl:value-of select="$settings//property[@name='h1_feed_all']/value" />
-                                <span></span>
-                            </h1>
-                        </div>
-                        <xsl:call-template name="filters">
-                            <xsl:with-param name="type">link</xsl:with-param>
-                            <xsl:with-param name="link_new" select="1" />
-                            <xsl:with-param name="link_old" select="1" />
-                            <xsl:with-param name="popularity" select="1" />
-                            <xsl:with-param name="fit" select="1" />
-                        </xsl:call-template>
+                <div class="header">
+                    <div class="header__title">
+                        <h1>
+                            <xsl:value-of select="$settings//property[@name='h1_feed_all']/value" />
+                            <span></span>
+                        </h1>
                     </div>
+                    <xsl:call-template name="filters">
+                        <xsl:with-param name="type">link</xsl:with-param>
+                        <xsl:with-param name="link_new" select="1" />
+                        <xsl:with-param name="link_old" select="1" />
+                        <xsl:with-param name="popularity" select="1" />
+                        <xsl:with-param name="fit" select="1" />
+                    </xsl:call-template>
+                </div>
 
+                <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
+
+                <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
                     <xsl:apply-templates select="$getListFeeds//feed" mode="OfListFeeds">
                         <xsl:with-param name="label_enabled">0</xsl:with-param>
                     </xsl:apply-templates>
+                </div>
 
-                    <div class="paginated">
-                        <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListFeeds//total,'/',$getListFeeds//per_page,'/'))"  mode="paginated" />
-                    </div>
+                <div class="paginated">
+                    <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListFeeds//total,'/',$getListFeeds//per_page,'/'))"  mode="paginated" />
                 </div>
             </div>
         </div>
@@ -134,9 +137,11 @@
         <xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',$id,'/',$per_page,'/',$sort_polls))" />
         <xsl:variable name="feed" select="document(concat('udata://vote/get/',$id,'/0'))" />
 
-        <div class="feed">
-            <div class="shell">
-                <div class="head shadow">
+        <div class="shell">
+
+            <div class="article--feed article--standart">
+
+                <header class="feed__header shadow">
                     <div class="image">
                         <xsl:if test="($feed//photo_profile != '') or ($enable_edit = 'true')">
                             <xsl:attribute name="class">image f_h</xsl:attribute>
@@ -192,8 +197,9 @@
                             </xsl:choose>
                         </div>
                     </xsl:if>
-                </div>
-                <div class="feed-info shadow">
+                </header>
+
+                <section class="feed__info shadow">
                     <xsl:choose>
                         <xsl:when test="$h1 = '1'">
                             <h1>
@@ -285,7 +291,7 @@
 
                             <xsl:variable name="getUnactive" select="document(concat('udata://vote/listPollsOfFeeds/',$id,'/?unactive'))" />
                             <!--<xsl:if test="$getOffers//total != '0'">-->
-                                <!--<a class="create" href="#" onclick="$('#feeds_setting_form').slideToggle();">Предложения <span class="badge danger"><xsl:value-of select="$getOffers//total" /></span></a>-->
+                            <!--<a class="create" href="#" onclick="$('#feeds_setting_form').slideToggle();">Предложения <span class="badge danger"><xsl:value-of select="$getOffers//total" /></span></a>-->
                             <!--</xsl:if>-->
 
                             <xsl:if test="($getUnactive//total != '0') and ($listPollsOfFeeds//unactive = '0')">
@@ -389,7 +395,7 @@
                     </xsl:if>
 
 
-                </div>
+                </section>
 
                 <xsl:if test="$feed//last_search_string != ''">
                     <div class="list_empty">
@@ -406,83 +412,86 @@
                         </xsl:choose>
                     </div>
                 </xsl:if>
-
-                <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-                <div class="content hidden_block hidden_block_content">
-                    <xsl:choose>
-                        <xsl:when test="($feed//is_active = '1') or ($user-id = $feed//user/id)">
-
-                            <xsl:if test="$listPollsOfFeeds//unactive = '1'">
-                                <div class="title_block">
-                                    <div>Неактивные опросы</div>
-                                </div>
-                            </xsl:if>
-
-                            <div class="list_articles masonry" data-class-masonry="poll" data-masonry-gutter="20" data-block="1">
-
-                                <xsl:if test="$listPollsOfFeeds//unactive = '0'">
-                                    <div class="poll medium shadow new_poll_block" data-type="fast" data-for="feed" data-id="{$id}"
-                                         data-tooltips-id="{$tooltips//item[@id='1']/@id}"
-                                         data-tooltips-content="{$tooltips//item[@id='1']/@content}"
-                                         data-tooltips-pos="{$tooltips//item[@id='1']/@pos}"
-                                    >
-                                    </div>
-                                </xsl:if>
-
-                                <xsl:choose>
-                                    <xsl:when test="count($listPollsOfFeeds//items//item)">
-                                        <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="getListVotes">
-                                            <xsl:with-param name="type">medium</xsl:with-param>
-                                            <xsl:with-param name="view_url">true</xsl:with-param>
-                                            <xsl:with-param name="advert">5</xsl:with-param>
-                                            <xsl:with-param name="h">h2</xsl:with-param>
-                                        </xsl:apply-templates>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <!--<div class="list_empty">
-                                            Нет публикаций для отображения
-                                        </div>-->
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </div>
-                            <xsl:if test="$pagination = '1'">
-                                <div class="paginated">
-                                    <xsl:apply-templates select="document(concat('udata://system/numpages/',$listPollsOfFeeds//total,'/',$listPollsOfFeeds//per_page,'/'))"  mode="paginated" />
-                                </div>
-                                <xsl:if test="$listPollsOfFeeds//last_page = '0'">
-                                    <button class="btn btn-default btn-white btn-preloader paginated_ajax"
-                                            for-data-block="1"
-                                            data-udata="/udata/vote/listPollsOfFeeds/{$id}/{$per_page}/{$sort_polls}"
-                                            data-transform="modules/feeds/ajax_listPollsOfFeeds.xsl"
-                                            data-search_string="{$search_string}"
-                                    >
-                                        <img src="/templates/iview/images/preloader.gif" />
-                                        <span>Еще</span>
-                                    </button>
-                                </xsl:if>
-                            </xsl:if>
-                            <xsl:if test="$pagination = '2'">
-                                <xsl:if test="$listPollsOfFeeds//total &gt; $listPollsOfFeeds//per_page">
-                                    <div class="paginated">
-                                        <form action="{$feed//link}" method="POST">
-                                            <input type="hidden" name="sort" value="fit" />
-                                            <input type="hidden" name="goto" value="poll{$listPollsOfFeeds//items//item[position()=last()]/@id}" />
-                                            <button class="btn btn-default btn-white btn-preloader">
-                                                <img src="/templates/iview/images/preloader.gif" />
-                                                <span>Еще</span>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </xsl:if>
-                            </xsl:if>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <div class="alert alert-warning" role="alert">Лента отключена</div>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </div>
             </div>
+
+            <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
+
+            <div class="content hidden_block hidden_block_content">
+                <xsl:choose>
+                    <xsl:when test="($feed//is_active = '1') or ($user-id = $feed//user/id)">
+
+                        <xsl:if test="$listPollsOfFeeds//unactive = '1'">
+                            <div class="title_block">
+                                <div>Неактивные опросы</div>
+                            </div>
+                        </xsl:if>
+
+                        <div class="list_articles masonry" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
+
+                            <xsl:if test="$listPollsOfFeeds//unactive = '0'">
+                                <div class="article article--medium shadow new_poll" data-type="fast" data-for="feed" data-id="{$id}"
+                                     data-tooltips-id="{$tooltips//item[@id='1']/@id}"
+                                     data-tooltips-content="{$tooltips//item[@id='1']/@content}"
+                                     data-tooltips-pos="{$tooltips//item[@id='1']/@pos}"
+                                >
+                                </div>
+                            </xsl:if>
+
+                            <xsl:choose>
+                                <xsl:when test="count($listPollsOfFeeds//items//item)">
+                                    <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="getListVotes">
+                                        <xsl:with-param name="type">medium</xsl:with-param>
+                                        <xsl:with-param name="view_url">true</xsl:with-param>
+                                        <xsl:with-param name="advert">5</xsl:with-param>
+                                        <xsl:with-param name="h">h2</xsl:with-param>
+                                    </xsl:apply-templates>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <!--<div class="list_empty">
+                                        Нет публикаций для отображения
+                                    </div>-->
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </div>
+                        <xsl:if test="$pagination = '1'">
+                            <div class="paginated">
+                                <xsl:apply-templates select="document(concat('udata://system/numpages/',$listPollsOfFeeds//total,'/',$listPollsOfFeeds//per_page,'/'))"  mode="paginated" />
+                            </div>
+                            <xsl:if test="$listPollsOfFeeds//last_page = '0'">
+                                <button class="btn btn-default btn-white btn-preloader paginated_ajax"
+                                        for-data-block="1"
+                                        data-udata="/udata/vote/listPollsOfFeeds/{$id}/{$per_page}/{$sort_polls}"
+                                        data-transform="modules/feeds/ajax_listPollsOfFeeds.xsl"
+                                        data-search_string="{$search_string}"
+                                >
+                                    <img src="/templates/iview/images/preloader.gif" />
+                                    <span>Еще</span>
+                                </button>
+                            </xsl:if>
+                        </xsl:if>
+                        <xsl:if test="$pagination = '2'">
+                            <xsl:if test="$listPollsOfFeeds//total &gt; $listPollsOfFeeds//per_page">
+                                <div class="paginated">
+                                    <form action="{$feed//link}" method="POST">
+                                        <input type="hidden" name="sort" value="fit" />
+                                        <input type="hidden" name="goto" value="poll{$listPollsOfFeeds//items//item[position()=last()]/@id}" />
+                                        <button class="btn btn-default btn-white btn-preloader">
+                                            <img src="/templates/iview/images/preloader.gif" />
+                                            <span>Еще</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </xsl:if>
+                        </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div class="alert alert-warning" role="alert">Лента отключена</div>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </div>
+
         </div>
+
     </xsl:template>
 
     <!-- Лента опросов (предпросмотр) -->
@@ -497,8 +506,9 @@
         <xsl:param name="h1">1</xsl:param>
         <xsl:variable name="listPollsOfFeeds" select="document(concat('udata://vote/listPollsOfFeeds/',$id,'/',$per_page,'/',$sort_polls))" />
         <xsl:variable name="feed" select="document(concat('udata://vote/get/',$id,'/0'))" />
-        <article class="feed shadow">
-            <header>
+
+        <article class="article article--feed article--medium shadow">
+            <header class="feed__header">
                 <div class="image">
                     <xsl:if test="$feed//photo_profile != ''">
                         <xsl:attribute name="class">image f_h</xsl:attribute>
@@ -532,8 +542,7 @@
                     </div>
                 </xsl:if>
             </header>
-
-            <div class="feed-info">
+            <section class="feed__info">
                 <xsl:choose>
                     <xsl:when test="$h1 = '1'">
                         <h1>
@@ -603,49 +612,9 @@
                     <a class="item" href="/vote/create_poll/?feed={$id}"><span class="glyphicon glyphicon-tasks"></span>Новый опрос</a>
                     <a class="item" href="/content/create_article/"><span class="glyphicon glyphicon-pencil"></span>Новая статья</a>
                 </xsl:if>
-            </div>
-            <!--<img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-            <div class="content hidden_block hidden_block_content">
-                <xsl:choose>
-                    <xsl:when test="($feed//is_active = '1') or ($user-id = $feed//user/id)">
-                        <div class="list_articles masonry" data-class-masonry="poll" data-masonry-gutter="20">
-                            <xsl:choose>
-                                <xsl:when test="count($listPollsOfFeeds//items//item)">
-                                    <xsl:apply-templates select="$listPollsOfFeeds//items//item" mode="listPollsOfFeeds" />
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <div class="list_empty">
-                                        Нет публикаций для отображения
-                                    </div>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </div>
-                        <xsl:if test="$pagination = '1'">
-                            <div class="paginated">
-                                <xsl:apply-templates select="document(concat('udata://system/numpages/',$listPollsOfFeeds//total,'/',$listPollsOfFeeds//per_page,'/'))"  mode="paginated" />
-                            </div>
-                        </xsl:if>
-                        <xsl:if test="$pagination = '2'">
-                            <xsl:if test="$listPollsOfFeeds//total &gt; $listPollsOfFeeds//per_page">
-                                <div class="paginated">
-                                    <form action="{$feed//link}" method="POST">
-                                        <input type="hidden" name="sort" value="fit" />
-                                        <input type="hidden" name="goto" value="poll{$listPollsOfFeeds//items//item[position()=last()]/@id}" />
-                                        <button class="btn btn-default btn-white btn-preloader">
-                                            <img src="/templates/iview/images/preloader.gif" />
-                                            <span>Еще</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </xsl:if>
-                        </xsl:if>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <div class="alert alert-warning" role="alert">Лента отключена</div>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </div>-->
+            </section>
         </article>
+
     </xsl:template>
 
     <xsl:template match="item" mode="listPollsOfFeedsPreview">
@@ -671,7 +640,6 @@
         <xsl:param name="id" />
         <xsl:param name="label_enabled">0</xsl:param>
 
-
         <xsl:call-template name="feed_preview">
             <xsl:with-param name="id" select="$id" />
             <xsl:with-param name="per_page" select="$settings//property[@name='homepage_num_poll_in_feed']/value" />
@@ -681,44 +649,6 @@
             <xsl:with-param name="enable_link_create">0</xsl:with-param>
             <xsl:with-param name="h1">0</xsl:with-param>
         </xsl:call-template>
-
-
-        <!--<xsl:variable name="feed" select="document(concat('udata://vote/get/',$id,'/0'))" />
-        <div class="feed_item">
-            <table>
-                <tr>
-                    <xsl:if test="$feed//photo_profile_active = '1'">
-                        <td class="photo_profile">
-                            <a href="{$feed//link}">
-                                <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $feed//photo_profile, ')/160/160/void/0/1/5/0/80/'))/udata" mode="feedPhotoProfile">
-                                    <xsl:with-param name="width" select="160" />
-                                    <xsl:with-param name="height" select="160" />
-                                </xsl:apply-templates>
-                            </a>
-                        </td>
-                    </xsl:if>
-                    <td class="info">
-                        <a href="{$feed//link}"><xsl:value-of select="$feed//name" /></a>
-                        <span class="date"><xsl:value-of select="$feed//date" /></span>
-                        <span class="info_item">Подписчиков: <xsl:value-of select="$feed//num_subscribers" /></span>
-                        <hr/>
-                        <div class="description"><xsl:value-of select="$feed//description" disable-output-escaping="yes" /></div>
-                    </td>
-                    <xsl:if test="$label_enabled = '1'">
-                        <td class="labels">
-                            <xsl:choose>
-                                <xsl:when test="$feed//is_active = '1'">
-                                    <span class="label label-success">Лента активна</span>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <span class="label label-warning">Лента отключена</span>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </td>
-                    </xsl:if>
-                </tr>
-            </table>
-        </div>-->
     </xsl:template>
 
     <xsl:template match="page" mode="feed_list_category">

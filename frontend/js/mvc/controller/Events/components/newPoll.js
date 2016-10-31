@@ -2,8 +2,8 @@ export default function newPoll(){
     
     return {
         Init: (function(){
-            if ($(".new_poll_block").length) {
-                $("body").on("change", ".new_poll_block #new_poll_form select, .new_poll_block #new_poll_form input:not(.poll .variants input), .new_poll_block #new_poll_form textarea", function () {
+            if ($(".new_poll").length) {
+                $("body").on("change", ".new_poll #new_poll_form select, .new_poll #new_poll_form input:not(.poll .variants input), .new_poll #new_poll_form textarea", function () {
                     if ($(this).attr('name') == 'data[country]') {
                         $("select[name='data[region]").val('');
                         $("select[name='data[city]").val('');
@@ -16,13 +16,13 @@ export default function newPoll(){
 
                 //Сохранение нового опроса
                 $("body").on("click", ".save_poll", function(){
-                    $(".new_poll_block .save_poll").html("Сохранение...");
-                    $(".new_poll_block .save_poll").prop("disabled", true);
+                    $(".new_poll .save_poll").html("Сохранение...");
+                    $(".new_poll .save_poll").prop("disabled", true);
 
-                    var data_type = $(".new_poll_block").attr("data-type");
-                    var data_for = $(".new_poll_block").attr("data-for");
+                    var data_type = $(".new_poll").attr("data-type");
+                    var data_for = $(".new_poll").attr("data-for");
                     data_for = (data_for != undefined) ? data_for : "";
-                    var data_id = $(".new_poll_block").attr("data-id");
+                    var data_id = $(".new_poll").attr("data-id");
                     data_id = (data_id != undefined) ? data_id : "";
 
                     var fast = (data_type == "fast") ? "1/" : "";
@@ -32,10 +32,10 @@ export default function newPoll(){
                             url : "/udata/vote/saveNewPoll/"+fast+".json",
                             type : "POST",
                             dataType : 'json',
-                            data : $(".new_poll_block #new_poll_form").serialize(),
+                            data : $(".new_poll #new_poll_form").serialize(),
                             success : function(data) {
                                 if (data.error != undefined) {
-                                    $(".new_poll_block .save_poll").prop("disabled", false);
+                                    $(".new_poll .save_poll").prop("disabled", false);
                                     switch (data.error){
                                         case "not_auth":
                                             $("#authorization").modal();
@@ -71,15 +71,15 @@ export default function newPoll(){
                 });
 
                 $('body').on('hide.bs.modal', '#not_enough_data_poll', function (e) {
-                    $(".new_poll_block .save_poll").html("Сохранить опрос");
+                    $(".new_poll .save_poll").html("Сохранить опрос");
                 });
 
                 $('body').on('hide.bs.modal', '#authorization', function (e) {
-                    $(".new_poll_block .save_poll").html("Сохранить опрос");
+                    $(".new_poll .save_poll").html("Сохранить опрос");
                 });
 
                 $('body').on('hide.bs.modal', '#images_incorrect', function (e) {
-                    $(".new_poll_block .save_poll").html("Сохранить опрос");
+                    $(".new_poll .save_poll").html("Сохранить опрос");
                 });
             };
         })(),
@@ -91,7 +91,7 @@ export default function newPoll(){
                 dataType : 'html',
                 success : function(data) {
                     GM.View.NewPoll.refreshNewPoll(false, true);
-                    var destination = $(".new_poll_block").offset().top;
+                    var destination = $(".new_poll").offset().top;
                     destination -= 50;
                     if (destination > 0)
                         $('html,body').animate( { scrollTop: destination }, 600);

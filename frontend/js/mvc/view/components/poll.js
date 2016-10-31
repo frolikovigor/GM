@@ -1,9 +1,10 @@
 export default function poll(){
     return {
+
         //Выбор ответа в опросе
         PollSelectVariant: function(elem){
             var a=elem.find("input"); a.attr("sel","");
-            var p=elem.closest(".poll");
+            var p=elem.closest(".article");
             var max=p.attr("data-multiple");
             if (max==1){
                 p.find("input[type='checkbox']").each(function(){
@@ -31,7 +32,7 @@ export default function poll(){
                 $("#authorization").modal();
                 return false;
             }
-            var poll = this_.closest(".poll");
+            var poll = this_.closest(".article");
             var id = poll.attr("data-id");
             this_.prop("disabled", true);
             this_.find("span").addClass("hide");
@@ -46,7 +47,7 @@ export default function poll(){
                     var clone_id = "poll"+id+"_clone";
                     poll.append("<div id='"+clone_id+"'></div>");
                     poll.find("#"+clone_id).html(data);
-                    $(".poll.poll"+id).html(poll.find("#"+clone_id+" .poll"+id).html());
+                    $(".article.poll"+id).html(poll.find("#"+clone_id+" .poll"+id).html());
                     GM.View.CutContent();
                     poll.find("#"+clone_id).remove();
                     GM.View.Masonry.init();

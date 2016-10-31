@@ -48,11 +48,8 @@ export default function masonry(){
         FeedSubscribe: function(elem){
             var parent = elem.parent();
             elem.html("<img src='/templates/iview/images/preloader.gif' />");
-            $.ajax({
-                url : "/udata/vote/subscribe/"+elem.attr("data-feed-id")+"/?transform=modules/feeds/feeds.xsl",
-                type : "POST",
-                dataType : 'html',
-                success : function(data) {
+            GM.Model.Feed.FeedSubscribe(elem.attr("data-feed-id")).then(
+                (data) => {
                     parent.html(data);
                     parent.find("button:not(.disabled)").on("click", function(){
                         if (!$(this).hasClass("no-auth")){
@@ -60,7 +57,7 @@ export default function masonry(){
                         }
                     });
                 }
-            });
+            );
         }
     };
 };

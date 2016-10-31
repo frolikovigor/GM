@@ -1,0 +1,44 @@
+.title_block {
+  border-bottom: 1px solid $color1;
+  color: $color1;
+  font-size: 16px;
+  margin: 30px 0 15px 0;
+  text-transform: uppercase;
+
+  div {
+    border-bottom: 3px solid $color1;
+    display: inline-block;
+    margin-bottom: -1px;
+    padding: 0 2px 2px 0;
+  }
+
+  .right_text {
+    color: $color4;
+    float: right;
+    font-size: 12px;
+
+    .glyphicon {
+      font-size: 10pt;
+    }
+  }
+
+  form.right_text {
+    cursor: pointer;
+  }
+
+  &.margin {
+    margin: 20px;
+  }
+
+  &.light {
+    color: $color1;
+  }
+
+  &.light div {
+    border-bottom: 3px solid $color1;
+  }
+
+  &.light .right_text {
+    color: $color4;
+  }
+}

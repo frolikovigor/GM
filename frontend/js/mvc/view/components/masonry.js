@@ -9,6 +9,7 @@ export default function masonry(){
 
             $(".masonry").each(function(){
                 var getClass = $(this).data("class-masonry");
+
                 var getGutter = parseInt($(this).data("masonry-gutter"));
                 $(this).masonry({
                     itemSelector: '.'+getClass,

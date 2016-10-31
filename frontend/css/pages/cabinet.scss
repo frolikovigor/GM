@@ -1,0 +1,172 @@
+#cabinet {
+  padding-top: 10px;
+  position: relative;
+  width: 100%;
+
+  //.h1 {
+  //  font-size: 16pt;
+  //  margin: 0 0 15px;
+  //}
+
+  table .title_link {
+    font-size: 11pt;
+    margin: 5px 0;
+    text-decoration: underline;
+  }
+
+
+  .header .header__categories {
+    border-bottom: 0;
+  }
+
+  .save_poll {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+
+  .interests {
+    width: 100%;
+
+    .panel-heading {
+      padding: 5px 15px;
+    }
+
+    .interest-item {
+      display: list-item !important;
+      margin-left: 33px;
+      padding: 2px 10px;
+    }
+
+    .interest-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .interest-item .divider {
+      font-size: 10px;
+      margin: 0 10px;
+    }
+
+    .glyphicon-remove {
+      cursor: pointer;
+      float: right;
+      margin-top: 4px;
+    }
+
+    .add {
+      margin: 0 10px;
+    }
+
+    span.glyphicon-plus {
+      margin-left: 15px;
+    }
+
+    select {
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    select[data-cat='1'] {
+      margin-left: 15px !important;
+    }
+
+    select {
+      width: 200px;
+    }
+
+    .preloader {
+      margin-left: 5px;
+    }
+
+  }
+
+  .profile {
+    width: 100%;
+
+    .saving {
+      display: inline-block;
+      margin: 18px 0 0 10px;
+      vertical-align: top;
+    }
+
+    .avatar {
+      background: $color5;
+      border: 1px solid $color2;
+      height: 172px;
+      margin-bottom: 5px;
+      padding: 5px;
+      position: relative;
+      width: 172px;
+    }
+
+    .avatar span.remove {
+      background-color: $color5;
+      cursor: pointer;
+      filter: alpha(opacity = 50);
+      -khtml-opacity: .5;
+      -moz-opacity: .5;
+      opacity: .5;
+      padding: 2px;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+    }
+
+    .avatar span.remove:hover {
+      filter: alpha(opacity = 80);
+      -khtml-opacity: .8;
+      -moz-opacity: .8;
+      opacity: .8;
+    }
+  }
+
+
+
+  .save {
+    display: inline-block;
+    margin-top: 25px;
+    vertical-align: top;
+  }
+
+  #cabinet_my_polls {
+    overflow: auto;
+
+    select {
+      width: 100%;
+    }
+
+    .edit_poll {
+      cursor: pointer;
+    }
+  }
+
+  #cabinet_my_articles {
+    overflow: auto;
+  }
+
+  #cabinet_profile {
+    background-color: $color5;
+    max-width: 630px;
+    padding: 20px;
+
+    .label {
+      font-size: 11px;
+    }
+
+    label {
+      display: block;
+    }
+
+    .birthday select {
+      display: inline-block;
+      margin: 0 10px 5px 0;
+      width: 100px;
+    }
+  }
+
+  .hide1.hide2.hide3 {
+    display: none;
+  }
+}

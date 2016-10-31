@@ -1,0 +1,87 @@
+$bg-color: #f5f5f5;
+$color0: #666;
+$color1: #265a88;
+$color2: #ddd;
+$color3: #aaa;
+$color4: #999;
+$color5: #fff;
+$color6: #333;
+$color7: #eee;
+$color8: #f8f7ed;
+$color9: #555;
+$color10: #ccc;
+$color11: #f00;
+
+#homepage {
+  position: relative;
+
+  .shell>.content {
+    margin-top:20px;
+  }
+
+  .sidebar {
+    background-color: $color5;
+    font-size: 12px;
+    margin: 0 0 15px 0;
+    padding: 10px 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+  }
+
+  .list_articles {
+    font-size: 0;
+  }
+
+  .shell>.header {
+    margin-top: 20px;
+  }
+
+  .popular_categories {
+    height: 190px;
+    margin: 40px 0;
+    overflow: hidden;
+    position: relative;
+    text-align: justify;
+
+    div {
+      display: inline-block;
+      height: 190px;
+      position: relative;
+      text-align: center;
+      vertical-align: top;
+      width: 160px;
+
+      span {
+        bottom: 0;
+        color: $color1;
+        display: block;
+        font-size: 14px;
+        position: absolute;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+      }
+    }
+
+    img {
+      height: auto;
+      margin-top: 5px;
+      width: 150px;
+    }
+
+    &:after {
+      content: " ";
+      display: inline-block;
+      height: 160px;
+      width: 160px;
+    }
+  }
+}
+
+@media only screen and (max-width: 890px) {
+  #homepage {
+    padding-top: 10px;
+  }
+}

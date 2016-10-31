@@ -12,7 +12,7 @@ class content_custom extends content
         $currentTime = time();
 
         //Обновление новостей
-        $news = cmsController::getInstance()->getModule("news");
+        /*$news = cmsController::getInstance()->getModule("news");
         $pages = new selector('pages');
         $pages->types('object-type')->name('news', 'rubric');
         $pages->where('hierarchy')->page(3160)->childs(1);
@@ -30,7 +30,7 @@ class content_custom extends content
                 $url = $lent->getValue("url");
                 eval('$news->' . $func . '($lent->getObjectId(), "' . $url . '");');
             }
-        }
+        }*/
 
         //Обновление рейтинга опросов и лент ======================================================
         /*

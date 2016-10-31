@@ -23,8 +23,8 @@
 
         <div id="view_category" class="shift_right">
             <div class="shell">
-                <div class="header shadow">
-                    <div class="title">
+                <header class="header shadow">
+                    <div class="header__title">
                         <span class="glyphicon {//property[@name='glyphicon_icon']/value}"></span>
                         <h1>
                             <xsl:value-of select="//property[@name='h1']/value" />
@@ -45,7 +45,7 @@
                     <xsl:variable name="category_subcat" select="document(concat('udata://vote/xsltCache/31536000/(udata://content/menu///',$category_subcat_id,'/)'))//item" />
 
                     <xsl:if test="count($category_subcat)">
-                        <ul class="subcategories">
+                        <ul class="header__categories">
                             <li><span class="glyphicon glyphicon-folder-open"></span></li>
                             <xsl:apply-templates select="$category_subcat" mode="category_subcat" />
                         </ul>
@@ -58,12 +58,12 @@
                         <xsl:with-param name="popularity" select="1" />
                         <xsl:with-param name="fit" select="0" />
                     </xsl:call-template>
-                </div>
+                </header>
 
                 <xsl:choose>
                     <xsl:when test="count($getListVotesOfCategory/udata/items//item)">
                         <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
-                        <div class="content masonry hidden_block hidden_block_content" data-class-masonry="poll" data-masonry-gutter="20">
+                        <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20">
                             <xsl:apply-templates select="$getListVotesOfCategory/udata/items//item" mode="getListVotes">
                                 <xsl:with-param name="type">medium</xsl:with-param>
                                 <xsl:with-param name="view_url">true</xsl:with-param>
