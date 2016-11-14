@@ -23,5 +23,6 @@ require('script!./wait_for_images.js');
 require('script!./ddd.js');
 require('script!./touch_smartphoenes.js');
 
+
 import getController from './mvc/controller/common';
 const Controller = new getController();

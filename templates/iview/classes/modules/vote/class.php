@@ -2133,7 +2133,7 @@ class vote_custom extends def_module {
             if ($data['subcategory'] && is_numeric($data['subcategory'])) $parent = (int) $data['subcategory'];
         $parent = ($fastPoll && !$parent) ? 3401 : $parent;
 
-        if (!$parent) return array("error"=>"homepage");;
+        if (!$parent) return array("error"=>"homepage");
 
         //Основание опроса
         $base = false;
@@ -2782,69 +2782,79 @@ class vote_custom extends def_module {
     //Создание страницы-новости из mysql
     public function addArticleFromNews($newsId = false, $parent = false){
         if (!is_numeric($newsId)) return;
-        if (!is_numeric($parent)) return;
 
         $query = "SELECT * FROM news WHERE id=".$newsId;
         $r = mysql_query($query);
         if ($r){
+            $h = umiHierarchy::getInstance();
+            $oC = umiObjectsCollection::getInstance();
+            $root = CURRENT_WORKING_DIR;
+
             $userId = permissionsCollection::getInstance() -> getUserId();
 
             $news = mysql_fetch_array($r);
 
             $lent_id = $news['lent_id'];
-            $title = html_entity_decode($news['title']);
-            $link = html_entity_decode($news['link']);
-            $description = html_entity_decode($news['description']);
-            $content = html_entity_decode($news['content']);
-            $image = $news['image'];
-            $date = $news['date'];
 
-            //Создание страницы
-            $h = umiHierarchy::getInstance();
-            $oC = umiObjectsCollection::getInstance();
-            $root = CURRENT_WORKING_DIR;
+            $getLent = $oC->getObject($lent_id);
+            $source_title = ''; $source_url = '';
 
-            $pageId = $h->addELement($parent, 30, $title, '',141);
-            $getPage = $h->getElement($pageId);
-            if ($getPage instanceof umiHierarchyElement){
-                $old_mode = umiObjectProperty::$IGNORE_FILTER_INPUT_STRING;		//Откючение html сущн.
-                umiObjectProperty::$IGNORE_FILTER_INPUT_STRING = true;
+            if (is_object($getLent)){
+                $source_title = $getLent -> getValue('title');
+                $source_url = $getLent -> getValue('source_url');
+                $category = $getLent -> getValue('category');
 
-                $getLent = $oC->getObject($lent_id);
-                $source_title = ''; $source_url = '';
-
-                if (is_object($getLent)){
-                    $source_title = $getLent -> getValue('title');
-                    $source_url = $getLent -> getValue('source_url');
+                if (isset($category[0])){
+                    $category = $category[0];
+                    $category = $category -> getId();
                 }
 
-                $getPage->setIsActive(true);
-                $getPage->setAltName($pageId);
-                $getPage->setValue('h1', $title);
-                $getPage->setValue('title', $title);
-                $getPage->setValue('meta_descriptions', $description);
-                $getPage->setValue('content', $content);
-                $getPage->setValue('date', $date);
-                $getPage->setValue('source_title', $source_title);
-                $getPage->setValue('source_url', $source_url);
-                $getPage->setValue('user', $userId);
+                $parent = $parent ? $parent : ($category ? $category : 7);
 
-                $getLentId = $h->getObjectInstances($lent_id);
-                if (is_array($getLentId)) $getPage->setValue('source_news_lent', current($getLentId));
+                $title = html_entity_decode($news['title']);
+                $link = html_entity_decode($news['link']);
+                $description = html_entity_decode($news['description']);
+                $content = html_entity_decode($news['content']);
+                $image = $news['image'];
+                $date = $news['date'];
 
-                $getPage->setValue('type', 3921);
+                //Создание страницы
+                $pageId = $h->addELement($parent, 30, $title, '',154);
+                $getPage = $h->getElement($pageId);
+                if ($getPage instanceof umiHierarchyElement){
+                    $old_mode = umiObjectProperty::$IGNORE_FILTER_INPUT_STRING;		//Откючение html сущн.
+                    umiObjectProperty::$IGNORE_FILTER_INPUT_STRING = true;
 
-                //Сохранение изображения
-                $newFileName = createImage($root."/files/news_images/".$image.".jpg", $pageId);
-                unlink($root."/files/news_images/".$image.".jpg");
-                unlink($root."/files/news_images/".$image."_120.jpg");
-                $getPage->setValue('img', ".".$newFileName);
-                $getPage -> commit();
-                permissionsCollection::getInstance()->setDefaultPermissions($pageId);
+                    $getPage->setIsActive(true);
+                    $getPage->setAltName($pageId);
+                    $getPage->setValue('h1', $title);
+                    $getPage->setValue('title', $title);
+                    $getPage->setValue('meta_descriptions', $description);
+                    $getPage->setValue('content', $content);
+                    $getPage->setValue('date', $date);
+                    $getPage->setValue('source_title', $source_title);
+                    $getPage->setValue('source_url', $source_url);
+                    $getPage->setValue('user', $userId);
+
+                    $getLentId = $h->getObjectInstances($lent_id);
+                    if (is_array($getLentId)) $getPage->setValue('source_news_lent', current($getLentId));
+
+                    $getPage->setValue('type', 3921);
+
+                    //Сохранение изображения
+                    $newFileName = createImage($root."/files/news_images/".$image.".jpg", $pageId);
+                    unlink($root."/files/news_images/".$image.".jpg");
+                    unlink($root."/files/news_images/".$image."_120.jpg");
+                    $getPage->setValue('img', ".".$newFileName);
+                    $getPage -> commit();
+                    permissionsCollection::getInstance()->setDefaultPermissions($pageId);
+                }
+                $query = "UPDATE news SET is_deleted='1',title='',link='',description='',content='',image='',date='' WHERE id=".$newsId;
+                mysql_query($query);
+
+                $this->redirect("/admin/content/edit/".$pageId."/");
+                return $pageId;
             }
-            $query = "UPDATE news SET is_deleted='1',title='',link='',description='',content='',image='',date='' WHERE id=".$newsId;
-            mysql_query($query);
-            return $pageId;
         }
         return;
     }

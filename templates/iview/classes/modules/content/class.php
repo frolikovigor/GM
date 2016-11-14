@@ -307,10 +307,6 @@ class content_custom extends content
         return isset($_SERVER['SCRIPT_URL']) ? $_SERVER['SCRIPT_URL'] : "";
     }
 
-    //==================================================================================================================
-    //==================================================================================================================
-    //==================================================================================================================
-
     //Функция, которая выполняется при каждом открытии любой страницы
     //Проверка, завершены ли все предшествующие действия
     public function doAction()
@@ -1362,6 +1358,69 @@ class content_custom extends content
             return array("items" => array("nodes:article" => $result), "total" => $total, "per_page" => $per_page, "current_page" => $p);
         }
         return;
+    }
+
+
+    //Список публикаций в категории
+    public function getListPublics($parentId = false, $setPerPage = false, $sort = 'new', $desc = true)
+    {
+        $oC = umiObjectsCollection::getInstance();
+
+        $typesCollection = umiObjectTypesCollection::getInstance();
+        $listTypes = $typesCollection->getSubTypesList(141);
+        $listTypes[] = 71;
+
+        $parentId = $parentId ? $parentId : 7;
+
+        $getSettings = $oC->getObject(3934);
+        $p = getRequest('p') ? getRequest('p') : 0;
+
+        $per_page = 20;
+        if (is_object($getSettings)) {
+            $per_page = $getSettings->getValue('categoty_articles_per_page');
+        }
+        if ($setPerPage) $per_page = $setPerPage;
+
+        switch ($sort) {
+            case 'new':
+                $sort = "DESC";
+                break;
+            case 'old':
+                $sort = "ASC";
+                break;
+            default:
+                $sort = "DESC";
+                break;
+        }
+
+        $qExclude = " AND o.id NOT IN (SELECT obj_id FROM cms3_object_content WHERE field_id=625 AND int_val IS NOT NULL)";
+
+        $r = "      
+    SELECT SQL_CALC_FOUND_ROWS h.id as id, h.rel as pid, o.type_id as get_type, oc_525_lj.int_val as datas
+	FROM cms3_hierarchy h, cms3_object_types t, cms3_hierarchy_relations hr, cms3_objects o
+	LEFT JOIN cms3_object_content oc_525_lj ON oc_525_lj.obj_id=o.id AND oc_525_lj.field_id = '525'
+	WHERE o.type_id IN (".implode($listTypes, ',').") AND t.id = o.type_id AND h.type_id IN (30,41) AND h.lang_id = '1' AND h.is_deleted = '0' AND h.is_active = '1' AND h.id = hr.child_id AND (hr.level <= 5 AND hr.rel_id = '$parentId') AND h.obj_id = o.id 
+    ".$qExclude."
+	ORDER BY oc_525_lj.int_val $sort, h.ord ASC	
+        ";
+
+        $q = mysql_query($r);
+        $total = mysql_num_rows($q);
+
+        $result = array();
+        if ($total)
+            if (mysql_data_seek($q, $p*$per_page)){
+                while($row = mysql_fetch_array($q)){
+                    $result[] = array("@id"=>$row['id'], "@type-id"=>$row['get_type'], "@datas" => $row['datas']);
+                    if (count($result) == $per_page) break;
+                }
+            }
+
+        return array(
+            "items"=>array("nodes:item"=>$result),
+            "last_page" => (ceil($total / $per_page) == ($p+1)) ? "1" : "0",
+            "total"=>$total, "per_page"=>$per_page, "current_page"=>$p
+        );
     }
 
     //Изменение данных статей в кабинете пользователя

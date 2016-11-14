@@ -1166,7 +1166,8 @@ tr.introjs-showElement > th {
     .view_poll .for_article .info {
       color: #999;
       font-size: 12px;
-      margin: 0 0 10px 0; }
+      margin: 0 0 10px 0;
+      overflow: hidden; }
       .view_poll .for_article .info .source {
         float: right; }
   .view_poll .poll_statistic {
@@ -1621,6 +1622,21 @@ tr.introjs-showElement > th {
     display: block; }
   .article--medium .settings_item.open_for_tooltip > .dropdown-menu {
     display: block; }
+  .article--medium span.detail {
+    background-color: #265a88;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px -20px -20px;
+    overflow: hidden;
+    padding: 6px 20px 4px;
+    position: relative;
+    text-transform: uppercase; }
+  .article--medium span.detail:hover {
+    background-color: #337ab7; }
+  .article--medium a.detail {
+    color: #fff;
+    text-decoration: none; }
 
 @media only screen and (max-width: 1220px) {
   .article--medium {
@@ -1713,7 +1729,7 @@ tr.introjs-showElement > th {
   font-size: 14px;
   line-height: 18px; }
 
-.article--article.article--medium .article_content img {
+.article--article.article--medium .article_content .image img {
   display: block;
   height: auto;
   margin: 10px auto 15px auto;
@@ -1728,24 +1744,6 @@ tr.introjs-showElement > th {
 
 .article--poll .tooltip-inner {
   max-width: 150px !important; }
-
-.article--poll span.detail {
-  background-color: #265a88;
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  margin: 10px -20px -20px;
-  overflow: hidden;
-  padding: 6px 20px 4px;
-  position: relative;
-  text-transform: uppercase; }
-
-.article--poll span.detail:hover {
-  background-color: #337ab7; }
-
-.article--poll a.detail {
-  color: #fff;
-  text-decoration: none; }
 
 .article--poll .image td {
   position: relative;
@@ -1777,7 +1775,8 @@ tr.introjs-showElement > th {
   .article--poll.article--medium .for_article .info {
     color: #999;
     font-size: 12px;
-    margin: 10px 0; }
+    margin: 10px 0;
+    overflow: hidden; }
     .article--poll.article--medium .for_article .info .source {
       float: right; }
   .article--poll.article--medium .for_article .label {
@@ -2863,7 +2862,7 @@ a {
   a.open_cut {
     display: block;
     margin: 10px 0;
-    text-decoration: underline; }
+    text-decoration: none; }
     a.open_cut span {
       font-size: 9pt;
       margin-right: 5px; }
@@ -2951,7 +2950,17 @@ h1,
   width: 0; }
 
 .content_cut {
-  overflow: hidden; }
+  overflow: hidden;
+  position: relative; }
+  .content_cut:after {
+    background: linear-gradient(to top, #fff, transparent);
+    background-color: transparent;
+    bottom: 0px;
+    content: "";
+    height: 30px;
+    left: 0px;
+    width: 100%;
+    position: absolute; }
 
 .label-news {
   background-color: #d00;

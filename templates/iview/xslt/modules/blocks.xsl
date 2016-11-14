@@ -194,6 +194,46 @@
         </xsl:call-template>
     </xsl:template>
 
+
+    <xsl:template match="item" mode="getListPublics">
+        <xsl:param name="type">medium</xsl:param>
+        <xsl:param name="view_url">true</xsl:param>
+        <xsl:param name="advert">false</xsl:param>
+        <xsl:param name="h">h1</xsl:param>
+
+        <xsl:choose>
+            <xsl:when test="@type-id = '71'">
+                <xsl:call-template name="poll">
+                    <xsl:with-param name="id" select="@id" />
+                    <xsl:with-param name="view_url" select="$view_url" />
+                    <xsl:with-param name="type" select="$type" />
+                    <xsl:with-param name="h" select="$h" />
+                </xsl:call-template>
+                <xsl:if test="($advert != 'false') and ($user-id != '2')">
+                    <xsl:if test="(position() mod $advert) = 0">
+                        <xsl:variable name="pos" select="position() div $advert" />
+                        <xsl:variable name="advert_value" select="$settings//property[@name=concat('advert_',$pos)]/value" />
+                        <xsl:if test="$advert_value != ''">
+                            <div class="article article--poll article--medium advert">
+                                <xsl:value-of select="$advert_value" disable-output-escaping="yes" />
+                            </div>
+                        </xsl:if>
+                    </xsl:if>
+                </xsl:if>
+            </xsl:when>
+
+            <xsl:otherwise>
+                <xsl:call-template name="article">
+                    <xsl:with-param name="id" select="@id" />
+                    <xsl:with-param name="view_url" select="$view_url" />
+                    <xsl:with-param name="type" select="$type" />
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+
+
+    </xsl:template>
+
     <xsl:template match="item" mode="navigation_item">
         <li>
             <xsl:choose>

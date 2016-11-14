@@ -208,7 +208,7 @@
                                     <div class="anons content_cut" data-cut-id="article_{$getPoll//for_article/@id}" data-cut-height="90">
                                         <xsl:value-of select="$getPoll//for_article//content" disable-output-escaping="yes" />
                                     </div>
-                                    <a href="#" class="open_cut hide" data-for-cut="article_{$getPoll//for_article/@id}">Читать дальше</a>
+                                    <a href="#" class="open_cut hide" data-for-cut="article_{$getPoll//for_article/@id}">...</a>
                                 <xsl:text disable-output-escaping="yes">&lt;</xsl:text>!--/noindex--<xsl:text disable-output-escaping="yes">&gt;</xsl:text>
                             </div>
                         </xsl:if>
@@ -728,7 +728,7 @@
                             <xsl:with-param name="cut-height">145</xsl:with-param>
                         </xsl:call-template>
                     </div>
-                    <a href="#" class="open_cut hide" data-for-cut="comments_cut">Читать дальше</a>
+                    <a href="#" class="open_cut hide" data-for-cut="comments_cut">...</a>
 
 
                     <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/',$parents//page[position() = last()]/@id,'/',$settings//property[@name='poll_page_num_poll_new']/value,'/popularity/1'))/udata/items//item" />

@@ -399,15 +399,25 @@
 
                             <div class="article_content">
                                 <xsl:if test="$getArticle//field[@name='img']/value != ''">
-                                    <a href="{$link}">
-                                        <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='img']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
-                                    </a>
+                                    <div class="image">
+                                        <a href="{$link}">
+                                            <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='img']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
+                                        </a>
+                                    </div>
                                 </xsl:if>
-                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="90">
+                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="180">
                                     <xsl:value-of select="$getArticle//field[@name='content']/value" disable-output-escaping="yes" />
                                     <xsl:value-of select="$getArticle//field[@name='article']/value" disable-output-escaping="yes" />
                                 </div>
-                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
+                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">...</a>
+
+                                <xsl:call-template name="comments">
+                                    <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
+                                    <xsl:with-param name="per_page">2</xsl:with-param>
+                                    <xsl:with-param name="cut-height">55</xsl:with-param>
+                                </xsl:call-template>
+
+                                <a class="detail" href="{$link}" title="Подробнее: {$getArticle//field[@name='h1']/value}"><span class="detail"> Подробнее <span class="glyphicon glyphicon-share-alt"></span></span></a>
                             </div>
                         </article>
                     </xsl:when>
@@ -427,15 +437,25 @@
 
                             <div class="article_content">
                                 <xsl:if test="$getArticle//field[@name='img']/value != ''">
-                                    <a href="{$link}">
-                                        <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='img']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
-                                    </a>
+                                    <div class="image">
+                                        <a href="{$link}">
+                                            <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='img']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
+                                        </a>
+                                    </div>
                                 </xsl:if>
-                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="90">
+                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="180">
                                     <xsl:value-of select="$getArticle//field[@name='content']/value" disable-output-escaping="yes" />
                                     <xsl:value-of select="$getArticle//field[@name='article']/value" disable-output-escaping="yes" />
                                 </div>
-                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
+                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">...</a>
+
+                                <xsl:call-template name="comments">
+                                    <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
+                                    <xsl:with-param name="per_page">2</xsl:with-param>
+                                    <xsl:with-param name="cut-height">55</xsl:with-param>
+                                </xsl:call-template>
+
+                                <a class="detail" href="{$link}" title="Подробнее: {$getArticle//field[@name='h1']/value}"><span class="detail"> Подробнее <span class="glyphicon glyphicon-share-alt"></span></span></a>
                             </div>
                         </article>
                     </xsl:when>
@@ -455,15 +475,25 @@
 
                             <div class="article_content">
                                 <xsl:if test="$getArticle//field[@name='poster']/value != ''">
-                                    <a href="{$link}">
-                                        <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='poster']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
-                                    </a>
+                                    <div class="image">
+                                        <a href="{$link}">
+                                            <xsl:apply-templates select="document(concat('udata://system/makeThumbnailFull/(.', $getArticle//field[@name='poster']/value, ')/590/auto/void/0/1/5/0/80/'))/udata" mode="image" />
+                                        </a>
+                                    </div>
                                 </xsl:if>
-                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="90">
+                                <div class="content_cut" data-cut-id="article_{$id}" data-cut-height="180">
                                     <xsl:value-of select="$getArticle//field[@name='content']/value" disable-output-escaping="yes" />
                                     <xsl:value-of select="$getArticle//field[@name='article']/value" disable-output-escaping="yes" />
                                 </div>
-                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">Читать дальше</a>
+                                <a href="#" class="open_cut hide" data-for-cut="article_{$id}">...</a>
+
+                                <xsl:call-template name="comments">
+                                    <xsl:with-param name="objId" select="$getArticle//field[@name='_obj_id']/value" />
+                                    <xsl:with-param name="per_page">2</xsl:with-param>
+                                    <xsl:with-param name="cut-height">55</xsl:with-param>
+                                </xsl:call-template>
+
+                                <a class="detail" href="{$link}" title="Подробнее: {$getArticle//field[@name='h1']/value}"><span class="detail"> Подробнее <span class="glyphicon glyphicon-share-alt"></span></span></a>
                             </div>
                         </article>
                     </xsl:when>

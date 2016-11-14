@@ -12,7 +12,7 @@
                             'saveNewArticle', 'getListArticlesOfUser', 'changeUserArticles',
                             'getImageName', 'edit_article', 'create_article', 'preview', 'apiVK',
                             'listCommentsSort', 'treeCommentSort','articleError','banner','getListPopularCategories',
-                            'sort_cookie','currentUrl', 'activate', 'tooltips'),
+                            'sort_cookie','currentUrl', 'activate', 'tooltips', 'getListPublics'),
 
         'sitetree' => 
                      Array(),

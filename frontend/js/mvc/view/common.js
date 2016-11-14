@@ -37,6 +37,8 @@ export default class view{
             if (($(this).outerHeight()-50) > setHeight) {
                 $(this).css("height",setHeight+"px");
                 $("a.open_cut[data-for-cut='"+id+"']").removeClass("hide");
+            } else {
+                $(this).removeClass("content_cut");
             }
         });
         $(".open_cut").click(function(){
@@ -45,7 +47,7 @@ export default class view{
             block.css("height","auto");
             block.removeClass('content_cut');
             $(this).remove();
-            setTimeout(function(){GM.View.Masonry.init();},500);
+            setTimeout(function(){GM.View.Masonry.init();},50);
             return false;
         });
     };

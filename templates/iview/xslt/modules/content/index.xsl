@@ -85,6 +85,8 @@
             </xsl:if>
 
             <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/7/',$settings//property[@name='homepage_num_poll_new']/value,'/auto/1/609/1/int_val/1'))" />
+            <xsl:variable name="getListPublics" select="document('udata://content/getListPublics/7/')" />
+
             <div class="shell">
                 <div class="title_block light">
                     <xsl:choose>
@@ -116,22 +118,28 @@
                          data-tooltips-pos="{$tooltips//item[@id='1']/@pos}"
                     ></div>
 
-                    <xsl:if test="$enabled_list_fit_feeds = 'true'">
-                        <xsl:apply-templates select="document(concat('udata://vote/getListFitFeeds/',$settings//property[@name='homepage_num_feeds']/value))//feeds//feed" mode="getListFitFeedsPreview" />
-                    </xsl:if>
+                    <!--<xsl:if test="$enabled_list_fit_feeds = 'true'">-->
+                        <!--<xsl:apply-templates select="document(concat('udata://vote/getListFitFeeds/',$settings//property[@name='homepage_num_feeds']/value))//feeds//feed" mode="getListFitFeedsPreview" />-->
+                    <!--</xsl:if>-->
 
-                    <xsl:apply-templates select="$getListVotesOfCategory/udata/items//item" mode="getListVotes">
+                    <xsl:apply-templates select="$getListPublics/udata/items//item" mode="getListPublics">
                         <xsl:with-param name="type">medium</xsl:with-param>
                         <xsl:with-param name="view_url">true</xsl:with-param>
                         <xsl:with-param name="h">h2</xsl:with-param>
                     </xsl:apply-templates>
+
+                    <!--<xsl:apply-templates select="$getListVotesOfCategory/udata/items//item" mode="getListVotes">-->
+                        <!--<xsl:with-param name="type">medium</xsl:with-param>-->
+                        <!--<xsl:with-param name="view_url">true</xsl:with-param>-->
+                        <!--<xsl:with-param name="h">h2</xsl:with-param>-->
+                    <!--</xsl:apply-templates>-->
                 </div>
 
                 <xsl:if test="$getListVotesOfCategory//last_page = '0'">
                     <button class="btn btn-default btn-white btn-preloader paginated_ajax"
                             for-data-block="1"
-                            data-udata="/udata/vote/getListVotesOfCategory/7/{$settings//property[@name='homepage_num_poll_new']/value}/auto/1/609/1/int_val/1/"
-                            data-transform="modules/content/ajax_getListVotesOfCategory.xsl"
+                            data-udata="/udata/content/getListPublics/7/"
+                            data-transform="modules/content/ajax_getListPublics.xsl"
                     >
                         <img src="/templates/iview/images/preloader.gif" />
                         <span>Еще</span>

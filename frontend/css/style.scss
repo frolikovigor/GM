@@ -85,7 +85,7 @@ a {
   &.open_cut {
     display: block;
     margin: 10px 0;
-    text-decoration: underline;
+    text-decoration: none;
 
     span {
       font-size: 9pt;
@@ -193,6 +193,18 @@ h1,
 
 .content_cut {
   overflow: hidden;
+  position: relative;
+
+  &:after {
+    background: linear-gradient(to top, #fff, transparent);
+    background-color: transparent;
+    bottom:0px;
+    content: "";
+    height: 30px;
+    left:0px;
+    width: 100%;
+    position: absolute;
+  }
 }
 
 .label-news {

@@ -19,7 +19,7 @@
         <xsl:call-template name="panel" />
         <xsl:call-template name="panel_info" />
 
-        <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/',$document-page-id,'//auto/1'))" />
+        <xsl:variable name="getListPublics" select="document(concat('udata://content/getListPublics/',$document-page-id,'//auto/1'))" />
 
         <div id="view_category" class="shift_right">
             <div class="shell">
@@ -61,10 +61,10 @@
                 </header>
 
                 <xsl:choose>
-                    <xsl:when test="count($getListVotesOfCategory/udata/items//item)">
+                    <xsl:when test="count($getListPublics/udata/items//item)">
                         <img class="preloader_list hidden_block" src="/templates/iview/images/preloader.gif" />
                         <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20">
-                            <xsl:apply-templates select="$getListVotesOfCategory/udata/items//item" mode="getListVotes">
+                            <xsl:apply-templates select="$getListPublics/udata/items//item" mode="getListPublics">
                                 <xsl:with-param name="type">medium</xsl:with-param>
                                 <xsl:with-param name="view_url">true</xsl:with-param>
                                 <xsl:with-param name="h">h2</xsl:with-param>
@@ -73,7 +73,7 @@
                         <div class="cl"></div>
 
                         <div class="paginated">
-                            <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListVotesOfCategory//total,'/',$getListVotesOfCategory//per_page,'/'))"  mode="paginated" />
+                            <xsl:apply-templates select="document(concat('udata://system/numpages/',$getListPublics//total,'/',$getListPublics//per_page,'/'))"  mode="paginated" />
                         </div>
                     </xsl:when>
                     <xsl:otherwise>

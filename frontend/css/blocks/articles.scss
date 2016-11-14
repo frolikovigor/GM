@@ -1,3 +1,6 @@
+$color-background-detail: #265a88;
+$color-background-detail-hover: #337ab7;
+$color-font-detail: #fff;
 $color-medium-background: #fff;
 $color-source-info: #aaa;
 $color-theme: #555;
@@ -122,6 +125,27 @@ $color-warning: #999;
 
   .settings_item.open_for_tooltip > .dropdown-menu {
     display: block;
+  }
+
+  span.detail {
+    background-color: $color-background-detail;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px -20px -20px;
+    overflow: hidden;
+    padding: 6px 20px 4px;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  span.detail:hover {
+    background-color: $color-background-detail-hover;
+  }
+
+  a.detail {
+    color: $color-font-detail;
+    text-decoration: none;
   }
 }
 

@@ -103,7 +103,7 @@
                             <xsl:variable name="getListVotesOfUser" select="document('udata://vote/getListVotesOfUser/')" />
 
                             <div class="content masonry hidden_block hidden_block_content" data-class-masonry="article--medium" data-masonry-gutter="20" data-block="1">
-                                <xsl:apply-templates select="$getListVotesOfUser//item" mode="getListVotes">
+                                <xsl:apply-templates select="$getListVotesOfUser//item" mode="getListPublics">
                                     <xsl:with-param name="type">medium</xsl:with-param>
                                     <xsl:with-param name="view_url">true</xsl:with-param>
                                     <xsl:with-param name="h">h2</xsl:with-param>
