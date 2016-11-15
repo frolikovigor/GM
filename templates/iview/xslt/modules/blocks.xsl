@@ -144,6 +144,23 @@
         </aside>
     </xsl:template>
 
+    <!-- Социальные кнопки -->
+    <xsl:template name="social-likes">
+        <div class="title_block">
+            <div>Поделитесь опросом с друзьями в социальных сетях</div>
+        </div>
+        <div class="social-likes">
+            <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+            <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+            <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+            <div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div>
+            <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+        </div>
+    </xsl:template>
+
+
+
+
     <xsl:template name="panel_info">
         <div id="panel_info">
             <div class="content">
@@ -423,5 +440,7 @@
             </xsl:when>
         </xsl:choose>
     </xsl:template>
+
+
 
 </xsl:stylesheet>

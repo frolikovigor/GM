@@ -85,42 +85,91 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:when>
+
+                        <xsl:when test="$document-page-type-id = '153' or $document-page-type-id = '154' or $document-page-type-id = '157'">
+                            <xsl:choose>
+                                <xsl:when test="//property[@name='meta_descriptions']/value != ''">
+                                    <xsl:value-of select="//property[@name='meta_descriptions']/value" disable-output-escaping="yes" />
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="//property[@name='h1']/value" disable-output-escaping="yes" />
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:when>
                     </xsl:choose>
                 </xsl:variable>
 
                 <meta name="description" content="{$description}" />
 
                 <!-- Оптимизация под социальные сети -->
-                <xsl:if test="$module='vote' and $method='poll'">
-                    <meta property="og:url"                content="http://{$domain}{/result/page/@link}" />
-                    <meta property="og:type"               content="article" />
-                    <meta property="og:title"              content="{//property[@name='h1']/value}" />
-                    <meta property="og:description"        content="{$description}" />
-                    <meta property="og:image"              content="http://glas.media/templates/iview/images/poster.jpg">
-                        <xsl:if test="//property[@name='img_0']/value">
-                            <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
-                        </xsl:if>
-                    </meta>
-                    <link rel="image_src" href="http://glas.media/templates/iview/images/poster.jpg">
-                        <xsl:if test="//property[@name='img_0']/value">
-                            <xsl:attribute name="href">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
-                        </xsl:if>
-                    </link>
-                    <meta property="fb:app_id"             content="168290833526698" />
+                <xsl:choose>
+                    <xsl:when test="$module='vote' and $method='poll'">
+                        <meta property="og:url"                content="http://{$domain}{/result/page/@link}" />
+                        <meta property="og:type"               content="article" />
+                        <meta property="og:title"              content="{//property[@name='h1']/value}" />
+                        <meta property="og:description"        content="{$description}" />
+                        <meta property="og:image"              content="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img_0']/value">
+                                <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </meta>
+                        <link rel="image_src" href="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img_0']/value">
+                                <xsl:attribute name="href">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </link>
+                        <meta property="fb:app_id"             content="168290833526698" />
 
-                    <meta name="twitter:card" content="summary" />
-                    <meta name="twitter:site" content="http://{$domain}{/result/page/@link}" />
-                    <meta name="twitter:title" content="{//property[@name='h1']/value}" />
-                    <meta name="twitter:description" content="{$description}" />
-                    <!--<meta name="twitter:creator" content="автор" />-->
-                    <meta property="twitter:image:src" content="http://glas.media/templates/iview/images/poster.jpg">
-                        <xsl:if test="//property[@name='img_0']/value">
-                            <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
-                        </xsl:if>
-                    </meta>
-                    <meta name="twitter:domain" content="glas.media" />
+                        <meta name="twitter:card" content="summary" />
+                        <meta name="twitter:site" content="http://{$domain}{/result/page/@link}" />
+                        <meta name="twitter:title" content="{//property[@name='h1']/value}" />
+                        <meta name="twitter:description" content="{$description}" />
+                        <!--<meta name="twitter:creator" content="автор" />-->
+                        <meta property="twitter:image:src" content="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img_0']/value">
+                                <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img_0']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </meta>
+                        <meta name="twitter:domain" content="glas.media" />
+                    </xsl:when>
 
-                </xsl:if>
+
+
+                    <xsl:when test="$document-page-type-id = '153' or $document-page-type-id = '154' or $document-page-type-id = '157'">
+                        <meta property="og:url"                content="http://{$domain}{/result/page/@link}" />
+                        <meta property="og:type"               content="article" />
+                        <meta property="og:title"              content="{//property[@name='h1']/value}" />
+                        <meta property="og:description"        content="{$description}" />
+                        <meta property="og:image"              content="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img']/value">
+                                <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </meta>
+                        <link rel="image_src" href="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img']/value">
+                                <xsl:attribute name="href">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </link>
+                        <meta property="fb:app_id"             content="168290833526698" />
+
+                        <meta name="twitter:card" content="summary" />
+                        <meta name="twitter:site" content="http://{$domain}{/result/page/@link}" />
+                        <meta name="twitter:title" content="{//property[@name='h1']/value}" />
+                        <meta name="twitter:description" content="{$description}" />
+                        <!--<meta name="twitter:creator" content="автор" />-->
+                        <meta property="twitter:image:src" content="http://glas.media/templates/iview/images/poster.jpg">
+                            <xsl:if test="//property[@name='img']/value">
+                                <xsl:attribute name="content">http://<xsl:value-of select="$domain" /><xsl:value-of select="//property[@name='img']/value" /></xsl:attribute>
+                            </xsl:if>
+                        </meta>
+                        <meta name="twitter:domain" content="glas.media" />
+                    </xsl:when>
+
+
+                </xsl:choose>
+
+
+
 
                 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
                 <!--<link rel="stylesheet" href="{$template-resources}css/bootstrap.min.css" />-->

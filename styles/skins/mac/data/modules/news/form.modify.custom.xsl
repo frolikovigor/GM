@@ -49,7 +49,7 @@
                 </div>
                 <div>
                     <!--<a href="/polls/new_poll/?fnm={@id}" target="_blank"><input type="button" value="Создать опрос" data-id="{@id}" /><span class="l"></span><span class="r"></span></a>-->
-                    <a href="/vote/addArticleFromNews/{@id}" target="_blank"><input type="button" value="Создать статью" data-id="{@id}" /><span class="l"></span><span class="r"></span></a>
+                    <a href="/vote/addArticleFromNews/{@id}" target="_blank"><input type="button" value="Создать статью" onclick="$(this).closest('news').remove();"  data-id="{@id}" /><span class="l"></span><span class="r"></span></a>
                 </div>
             </div>
         </div>

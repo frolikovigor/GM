@@ -1249,8 +1249,8 @@ class vote_custom extends def_module {
                             "type" => $typeArticle,
                             "link" => $getBase -> link,
                             "title" => $getBase -> getName(),
-                            "content" => $getBase -> getValue('content'),
-                            "content_cut" => string_cut(strip_tags($getBase -> getValue('content')), 250),
+                            "content" => $getBase -> getValue('content').$getBase -> getValue('article'),
+                            "content_cut" => string_cut(strip_tags($getBase -> getValue('content').$getBase -> getValue('article')), 250),
                             "img" => $getBase -> getValue('img'),
                             "date" => $getBase -> getValue('date'),
                             "source"=>$source,
@@ -1548,7 +1548,7 @@ class vote_custom extends def_module {
                         "type" => $typeArticle,
                         "link" => $getArticle -> link,
                         "title" => $getArticle -> getName(),
-                        "content" => $getArticle -> getValue('content'),
+                        "content" => $getArticle -> getValue('content').$getArticle -> getValue('article'),
                         "img" => $getArticle -> getValue('img'),
                         "date" => $date,
                         "source"=>$source,
@@ -2245,7 +2245,10 @@ class vote_custom extends def_module {
             $getPoll -> setValue('date', time());
         }
 
-        if (is_numeric($base)) $getPoll -> setValue('base', array($base));
+        if (is_numeric($base)) {
+            $getPoll -> setValue('base', array($base));
+            unlink(CURRENT_WORKING_DIR."/files/cache/articles/".$base.".arr");
+        }
 
         permissionsCollection::getInstance()->setDefaultPermissions($pollId);
 
@@ -2830,11 +2833,12 @@ class vote_custom extends def_module {
                     $getPage->setValue('h1', $title);
                     $getPage->setValue('title', $title);
                     $getPage->setValue('meta_descriptions', $description);
-                    $getPage->setValue('content', $content);
+                    $getPage->setValue('article', $content);
                     $getPage->setValue('date', $date);
                     $getPage->setValue('source_title', $source_title);
                     $getPage->setValue('source_url', $source_url);
                     $getPage->setValue('user', $userId);
+                    $getPage->setValue('on_homepage', true);
 
                     $getLentId = $h->getObjectInstances($lent_id);
                     if (is_array($getLentId)) $getPage->setValue('source_news_lent', current($getLentId));

@@ -14,26 +14,22 @@
     padding: 20px;
     width: 630px;
   }
+}
 
-  .sidebar {
-    background-color: $color5;
-    font-size: 12px;
-    margin: 0 0 10px 0;
-    padding: 10px 15px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 300px;
+.view_article__sidebar {
+  margin: 0 0 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
 
-    .title_block:first-child {
-      margin-top: 0;
-    }
+  .title_block:first-child {
+    margin-top: 0;
   }
 }
 
-
 @media only screen and ( max-width: 1220px ) {
-  #view_article .sidebar {
+  .view_article__sidebar {
     position: relative;
     right: auto;
     top: auto;

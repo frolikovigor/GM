@@ -204,7 +204,8 @@ export default class view{
                         } else
                             selector += ",";
 
-                        selector += ".article.poll"+pollId;
+                        selector += ".article.poll"+pollId+",";
+                        selector += ".article.article"+pollId;
                         first = false;
                     }
                 }
@@ -224,7 +225,11 @@ export default class view{
                 this_.removeClass('wait');
 
             if (firstElement){
-                $("#service-information").attr("data-goto", "poll"+firstElement);
+                if ($(".poll"+firstElement).length)
+                    $("#service-information").attr("data-goto", "poll"+firstElement);
+                else
+                    $("#service-information").attr("data-goto", "article"+firstElement);
+
                 GM.View.Goto();
             };
 

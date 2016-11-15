@@ -85,7 +85,7 @@
             </xsl:if>
 
             <xsl:variable name="getListVotesOfCategory" select="document(concat('udata://vote/getListVotesOfCategory/7/',$settings//property[@name='homepage_num_poll_new']/value,'/auto/1/609/1/int_val/1'))" />
-            <xsl:variable name="getListPublics" select="document('udata://content/getListPublics/7/')" />
+            <xsl:variable name="getListPublics" select="document('udata://content/getListPublics/7//id/609/1/int_val/')" />
 
             <div class="shell">
                 <div class="title_block light">
@@ -138,7 +138,7 @@
                 <xsl:if test="$getListVotesOfCategory//last_page = '0'">
                     <button class="btn btn-default btn-white btn-preloader paginated_ajax"
                             for-data-block="1"
-                            data-udata="/udata/content/getListPublics/7/"
+                            data-udata="/udata/content/getListPublics/7//id/609/1/int_val/"
                             data-transform="modules/content/ajax_getListPublics.xsl"
                     >
                         <img src="/templates/iview/images/preloader.gif" />

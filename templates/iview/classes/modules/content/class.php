@@ -12,7 +12,7 @@ class content_custom extends content
         $currentTime = time();
 
         //Обновление новостей
-        /*$news = cmsController::getInstance()->getModule("news");
+        $news = cmsController::getInstance()->getModule("news");
         $pages = new selector('pages');
         $pages->types('object-type')->name('news', 'rubric');
         $pages->where('hierarchy')->page(3160)->childs(1);
@@ -29,8 +29,24 @@ class content_custom extends content
                 $func = $lent->getValue("func");
                 $url = $lent->getValue("url");
                 eval('$news->' . $func . '($lent->getObjectId(), "' . $url . '");');
+
+                //Определение количества новостей в ленте ===============================
+                $objId = $lent->getObjectId();
+                $q = "SELECT COUNT(*) as total FROM news WHERE lent_id=" . $objId." AND is_deleted = '0'";
+                $r = mysql_query($q);
+                $data = mysql_fetch_assoc($r);
+                $total = isset($data['total']) ? $data['total'] : 0;
+
+                $nameLent = $lent->getName();
+                if (($pos = strpos($nameLent, "}")) !== false) {
+                    $nameLent = substr_replace($nameLent, "", 0, $pos + 2);
+                }
+                $nameLent = "{{$total}} ".$nameLent;
+                $lent -> setName($nameLent);
+                $lent -> commit();
+                //=======================================================================
             }
-        }*/
+        }
 
         //Обновление рейтинга опросов и лент ======================================================
         /*
@@ -916,7 +932,7 @@ class content_custom extends content
     }
 
     //Получить данные статьи
-    public function getArticle($pageId = false)
+    public function getArticle($pageId = false, $cache_save=false)
     {
         $identification = isset($_SESSION['identification']) ? $_SESSION['identification'] : identification();
         $user_auth = $identification[0];
@@ -926,120 +942,85 @@ class content_custom extends content
         $hierarchy = umiHierarchy::getInstance();
         $oC = umiObjectsCollection::getInstance();
         $getPage = $hierarchy->getElement($pageId);
-        $result = array();
-        if ($getPage instanceof umiHierarchyElement) {
-            $type = $getPage -> getObjectTypeId();
 
-            $oTC = umiObjectTypesCollection::getInstance();
-            $getType = $oTC -> getType($type);
-            if (is_object($getType)){
-                $getAllFields = $getType -> getAllFields();
-                foreach($getAllFields as $field){
-                    switch($field->getName()){
+        $result = false;
+        if (file_exists(CURRENT_WORKING_DIR."/files/cache/articles/".$pageId.".arr"))
+            $result = unserialize(file_get_contents(CURRENT_WORKING_DIR."/files/cache/articles/".$pageId.".arr"));
 
-                        default:
-                            $value = $getPage -> getValue($field->getName());
-                            $result[] = array(
-                                "@name" => $field->getName(),
-                                "value" => is_array($value) ? array("nodes:item"=>$value) : $value
-                            );
+        if (!$result or $cache_save){
+            $result = array();
+            if ($getPage instanceof umiHierarchyElement) {
+                $type = $getPage -> getObjectTypeId();
 
-                            break;
+                $oTC = umiObjectTypesCollection::getInstance();
+                $getType = $oTC -> getType($type);
+                if (is_object($getType)){
+                    $getAllFields = $getType -> getAllFields();
+                    foreach($getAllFields as $field){
+                        switch($field->getName()){
+
+                            default:
+                                $value = $getPage -> getValue($field->getName());
+                                $result[] = array(
+                                    "@name" => $field->getName(),
+                                    "value" => is_array($value) ? array("nodes:item"=>$value) : $value
+                                );
+
+                                break;
+                        }
                     }
+                    $result[] = array("@name"=>"_id", "value"=>$pageId);
+                    $result[] = array("@name"=>"_obj_id", "value"=>$getPage->getObjectId());
+                    $result[] = array("@id"=>$userId, "@name"=>"_current_user", "@auth"=>($user_auth ? '1' : '0'));
+
+                    $getAllParents = $hierarchy->getAllParents($pageId);
+                    $parents = getAllParents($getAllParents, array(7));
+                    $result[] = array("@name"=>'_categories', "value" => array("nodes:item" => $parents));
+
+                    $result[] = array("@name"=>"_is_active", "value"=>$getPage->getIsActive() ? "1" : "0");
+
+                    $result[] = array("@name"=>"_article_user", "value" => $getPage -> getValue('user'));
+
+                    $result[] = array("@name"=>"_link", "value" => $getPage -> link);
+
+                    $trailer = $getPage -> getValue('trailer');
+                    if (strpos($trailer, "youtube") !== false){
+                        parse_str($trailer, $uri);
+                        $uri = current($uri);
+                        if ($uri)
+                            $result[] = array("@name"=>"_trailer", "value" => '<iframe class="article_film_trailer" src="https://www.youtube.com/embed/'.$uri.'" frameborder="0" allowfullscreen></iframe>');
+                    }
+
+                    //Связанные опросы
+                    $s = new selector('pages');
+                    $s->types('object-type')->name('vote', 'poll');
+                    $s->where('base')->equals($pageId);
+                    $s->order('ord');
+                    if ($s->length) {
+                        $result[] = array("@name"=>'_polls', "value"=>array("nodes:item" => $s->result()));
+                    }
+
+                    //Расчет рейтинга
+                    $objId = $getPage->getObjectId();
+                    $s = new selector('pages');
+                    $s->types('object-type')->name('vote', 'poll');
+                    $s->where('variant_page')->equals(array('rel' => $objId));
+
+                    if ($s->length) {
+                        $result[] = array("@name"=>'_ratings', "value"=>array("nodes:item" => $s->result()));
+                    }
+
+                    $typeArticle = $getPage->getValue('type');
+                    $typeArticle = $oC->getObject($typeArticle);
+                    $typeArticle = is_object($typeArticle) ? array("@id"=>$typeArticle -> getValue("type_id"),"@obj_id" => $typeArticle->getId(), "@name" => $typeArticle->getName(), "@class" => $typeArticle->getValue("class"), "@rp" => $typeArticle->getValue('rp')) : "";
+
+                    $result[] = array("@name"=>"_type", "value"=>$typeArticle);
                 }
-                $result[] = array("@name"=>"_id", "value"=>$pageId);
-                $result[] = array("@name"=>"_obj_id", "value"=>$getPage->getObjectId());
-                $result[] = array("@id"=>$userId, "@name"=>"_current_user", "@auth"=>($user_auth ? '1' : '0'));
-
-                $getAllParents = $hierarchy->getAllParents($pageId);
-                $parents = getAllParents($getAllParents, array(7));
-                $result[] = array("@name"=>'_categories', "value" => array("nodes:item" => $parents));
-
-                $result[] = array("@name"=>"_is_active", "value"=>$getPage->getIsActive() ? "1" : "0");
-
-                $result[] = array("@name"=>"_article_user", "value" => $getPage -> getValue('user'));
-
-                $result[] = array("@name"=>"_link", "value" => $getPage -> link);
-
-                $trailer = $getPage -> getValue('trailer');
-                if (strpos($trailer, "youtube") !== false){
-                    parse_str($trailer, $uri);
-                    $uri = current($uri);
-                    if ($uri)
-                        $result[] = array("@name"=>"_trailer", "value" => '<iframe class="article_film_trailer" src="https://www.youtube.com/embed/'.$uri.'" frameborder="0" allowfullscreen></iframe>');
-                }
-
-                //Связанные опросы
-                $s = new selector('pages');
-                $s->types('object-type')->name('vote', 'poll');
-                $s->where('base')->equals($pageId);
-                $s->order('ord');
-                if ($s->length) {
-                    $result[] = array("@name"=>'_polls', "value"=>array("nodes:item" => $s->result()));
-                }
-
-                //Расчет рейтинга
-                $objId = $getPage->getObjectId();
-                $s = new selector('pages');
-                $s->types('object-type')->name('vote', 'poll');
-                $s->where('variant_page')->equals(array('rel' => $objId));
-
-                if ($s->length) {
-                    $result[] = array("@name"=>'_ratings', "value"=>array("nodes:item" => $s->result()));
-                }
-
-                $typeArticle = $getPage->getValue('type');
-                $typeArticle = $oC->getObject($typeArticle);
-                $typeArticle = is_object($typeArticle) ? array("@id"=>$typeArticle -> getValue("type_id"),"@obj_id" => $typeArticle->getId(), "@name" => $typeArticle->getName(), "@class" => $typeArticle->getValue("class"), "@rp" => $typeArticle->getValue('rp')) : "";
-
-                $result[] = array("@name"=>"_type", "value"=>$typeArticle);
             }
-            return array("nodes:field"=>$result);
-
-            /*$result['id'] = $pageId;
-            $result['obj_id'] = $getPage->getObjectId();
-            $result['link'] = $getPage->link;
-            $result['h1'] = $getPage->getValue('h1');
-            $result['content'] = $getPage->getValue('content');
-            $result['source_url'] = $getPage->getValue('source_url');
-            $result['source_title'] = $getPage->getValue('source_title');
-            $result['date'] = $getPage->getValue('date');
-            $result['img'] = $getPage->getValue('img');
-            $result['article_user'] = $getPage -> getValue('user');
-            $result['user'] = array("@id"=>$userId, "@auth"=>($user_auth ? '1' : '0'));
-            $result['is_active'] = $getPage->getIsActive() ? "1" : "0";
-
-            $getAllParents = $hierarchy->getAllParents($pageId);
-            $parents = getAllParents($getAllParents, array(7));
-            $result['categories'] = array("nodes:item" => $parents);
-
-            $s = new selector('pages');
-            $s->types('object-type')->name('vote', 'poll');
-            $s->where('base')->equals($pageId);
-            $s->order('ord');
-            if ($s->length) {
-                $result['polls'] = array("nodes:item" => $s->result());
-            }
-
-            //Расчет рейтинга
-            $objId = $getPage->getObjectId();
-            $s = new selector('pages');
-            $s->types('object-type')->name('vote', 'poll');
-            $s->where('variant_page')->equals(array('rel' => $objId));
-
-            if ($s->length) {
-                $result['ratings'] = array("nodes:item" => $s->result());
-            }
-
-            $typeArticle = $getPage->getValue('type');
-            $typeArticle = $oC->getObject($typeArticle);
-            $typeArticle = is_object($typeArticle) ? array("@id" => $typeArticle->getId(), "@name" => $typeArticle->getName(), "@class" => $typeArticle->getValue("class"), "@rp" => $typeArticle->getValue('rp')) : "";
-
-            $result['type'] = $typeArticle;
-
-            return $result;*/
+            file_put_contents(CURRENT_WORKING_DIR."/files/cache/articles/".$pageId.".arr",serialize($result));
         }
-        return;
+
+        return array("nodes:field"=>$result);
     }
 
     //Загрузка изображения для статьи
@@ -1362,7 +1343,7 @@ class content_custom extends content
 
 
     //Список публикаций в категории
-    public function getListPublics($parentId = false, $setPerPage = false, $sort = 'new', $desc = true)
+    public function getListPublics($parentId = false, $setPerPage = false, $sort = 'new', $filter='', $filter_value='', $filter_field_mysql='')
     {
         $oC = umiObjectsCollection::getInstance();
 
@@ -1381,12 +1362,18 @@ class content_custom extends content
         }
         if ($setPerPage) $per_page = $setPerPage;
 
+        $sortField = "oc_525_lj.int_val";
+
         switch ($sort) {
             case 'new':
                 $sort = "DESC";
                 break;
             case 'old':
                 $sort = "ASC";
+                break;
+            case 'id':
+                $sortField = "h.id";
+                $sort = "DESC";
                 break;
             default:
                 $sort = "DESC";
@@ -1395,13 +1382,23 @@ class content_custom extends content
 
         $qExclude = " AND o.id NOT IN (SELECT obj_id FROM cms3_object_content WHERE field_id=625 AND int_val IS NOT NULL)";
 
+        $filterS = ''; $filterW = '' ;
+        if ($filter && $filter_value && $filter_field_mysql){
+            $filterS = "LEFT JOIN cms3_object_content oc_".$filter."_lj ON oc_".$filter."_lj.obj_id=o.id AND oc_".$filter."_lj.field_id = '".$filter."'";
+            if ($filter_value == 'NULL'){
+                $filterW = " AND oc_".$filter."_lj.".$filter_field_mysql." IS NULL ";
+            } else {
+                $filterW = " AND oc_".$filter."_lj.".$filter_field_mysql." = '".$filter_value."' ";
+            }
+        }
+
         $r = "      
     SELECT SQL_CALC_FOUND_ROWS h.id as id, h.rel as pid, o.type_id as get_type, oc_525_lj.int_val as datas
 	FROM cms3_hierarchy h, cms3_object_types t, cms3_hierarchy_relations hr, cms3_objects o
-	LEFT JOIN cms3_object_content oc_525_lj ON oc_525_lj.obj_id=o.id AND oc_525_lj.field_id = '525'
-	WHERE o.type_id IN (".implode($listTypes, ',').") AND t.id = o.type_id AND h.type_id IN (30,41) AND h.lang_id = '1' AND h.is_deleted = '0' AND h.is_active = '1' AND h.id = hr.child_id AND (hr.level <= 5 AND hr.rel_id = '$parentId') AND h.obj_id = o.id 
+	LEFT JOIN cms3_object_content oc_525_lj ON oc_525_lj.obj_id=o.id AND oc_525_lj.field_id = '525' ".$filterS." 
+	WHERE o.type_id IN (".implode($listTypes, ',').") AND t.id = o.type_id AND h.type_id IN (30,41) ".$filterW."  AND h.lang_id = '1' AND h.is_deleted = '0' AND h.is_active = '1' AND h.id = hr.child_id AND (hr.level <= 5 AND hr.rel_id = '$parentId') AND h.obj_id = o.id 
     ".$qExclude."
-	ORDER BY oc_525_lj.int_val $sort, h.ord ASC	
+	ORDER BY $sortField $sort, h.ord ASC	
         ";
 
         $q = mysql_query($r);

@@ -29,13 +29,13 @@
         <xsl:choose>
             <xsl:when test="$type='standart'">
                 <xsl:variable name="width">588</xsl:variable>
-                <div class="article article--poll article--{$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
+                <div class="article article--poll article--standart poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
                     <form>
-                        <input type="hidden" name="data[params][type]" value="{$type}" />
+                        <input type="hidden" name="data[params][type]" value="standart" />
                         <input type="hidden" name="data[params][view_url]" value="{$view_url}" />
                         <input type="hidden" name="data[id]" value="{$id}" />
 
-                        <div class="theme" title="{$getPoll//h1}">
+                        <div class="article--standart__theme" title="{$getPoll//h1}">
                             <xsl:if test="(($getPoll//user/@id  = '2') and ($getPoll//user/@auth = '1')) or (($getPoll//user/@auth = '1') and ($getPoll//user/@id = $getPoll//poll_user))">
                                 <div class="dropdown settings_item">
                                     <button type="button" class="btn btn-default btn-white btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -86,7 +86,7 @@
                             </div>
                         </xsl:if>
 
-                        <div class="source-info"><span>Раздел: </span>
+                        <div class="article__source-info"><span>Раздел: </span>
                             <xsl:apply-templates select="$getPoll//categories//item" mode="poll_categories" />
                             <span class="date"><xsl:value-of select="$getPoll//date/@formatted-date" /></span>
                         </div>
@@ -161,7 +161,7 @@
                     </xsl:choose>
                 </xsl:variable>
 
-                <article class="article article--poll article--{$type} poll{$id} shadow" data-id="{$id}" data-multiple="{$getPoll//multiple}" data-type="poll">
+                <article class="article article--poll article--medium poll{$id} shadow" data-id="{$id}" data-multiple="{$getPoll//multiple}" data-type="poll">
 
                     <xsl:variable name="link">
                         <xsl:choose>
@@ -178,7 +178,7 @@
                         <a href="{$link}"><div class="disabled"></div></a>
                     </xsl:if>
                     <form>
-                        <input type="hidden" name="data[params][type]" value="{$type}" />
+                        <input type="hidden" name="data[params][type]" value="medium" />
                         <input type="hidden" name="data[params][view_url]" value="{$view_url}" />
                         <input type="hidden" name="data[id]" value="{$id}" />
 
@@ -226,7 +226,7 @@
                             </ul>
                         </div>
 
-                        <div class="theme" title="{$getPoll//h1}">
+                        <div class="article--medium__theme" title="{$getPoll//h1}">
                             <xsl:choose>
                                 <xsl:when test="$view_url = 'true'">
                                     <a href="{$link}">
@@ -249,7 +249,7 @@
                             </div>
                         </xsl:if>
 
-                        <div class="source-info"><span>Раздел: </span>
+                        <div class="article__source-info"><span>Раздел: </span>
                             <xsl:apply-templates select="$getPoll//categories//item" mode="poll_categories" />
                             <span class="date"><xsl:value-of select="$getPoll//date/@formatted-date" /></span>
                         </div>
@@ -321,7 +321,7 @@
                         </xsl:call-template>
 
                         <xsl:if test="$view_url = 'true'">
-                            <a class="detail" href="{$link}" title="Подробнее: {$getPoll//h1}"><span class="detail"> Подробнее <span class="glyphicon glyphicon-share-alt"></span><span class="right">Результаты на карте</span></span></a>
+                            <a class="article--medium__detail" href="{$link}" title="Подробнее: {$getPoll//h1}"><div> Подробнее <span class="glyphicon glyphicon-share-alt"></span><span class="right">Результаты на карте</span></div></a>
                         </xsl:if>
                     </form>
                 </article>
@@ -330,13 +330,13 @@
             <xsl:when test="$type = 'short'">
                 <xsl:variable name="width">263</xsl:variable>
 
-                <div class="article article--poll article--{$type} poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
+                <div class="article article--poll article--short poll{$id}" data-id="{$id}" data-multiple="{$getPoll//multiple}">
                     <form>
-                        <input type="hidden" name="data[params][type]" value="{$type}" />
+                        <input type="hidden" name="data[params][type]" value="short" />
                         <input type="hidden" name="data[params][view_url]" value="{$view_url}" />
                         <input type="hidden" name="data[id]" value="{$id}" />
 
-                        <div class="theme" title="{$getPoll//h1}">
+                        <div class="article--short__theme" title="{$getPoll//h1}">
                             <xsl:choose>
                                 <xsl:when test="$view_url = 'true'"><a href="{$getPoll//link}"><xsl:value-of select="$getPoll//h1" /></a></xsl:when>
                                 <xsl:otherwise>
@@ -708,17 +708,7 @@
                         <xsl:apply-templates select="$getPoll//infoblocks//item" mode="poll_infoblocks" />
                     </xsl:if>
 
-
-                    <div class="title_block">
-                        <div>Поделитесь опросом с друзьями в социальных сетях</div>
-                    </div>
-                    <div class="social-likes">
-                        <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-                        <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
-                        <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
-                        <div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div>
-                        <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
-                    </div>
+                    <xsl:call-template name="social-likes" />
 
                     <div class="cl"></div>
 
